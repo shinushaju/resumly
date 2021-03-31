@@ -1,0 +1,44 @@
+.container {
+    padding: 100px 0px;
+    margin: 24px 0;
+}
+.container .box {
+    margin: 0;
+    text-align: left;
+    position: fixed;
+    margin-top: 72px;
+    left: 50%;
+    transform: translate(-50%, -30%);
+}
+
+.resumly-icon {
+    height: 36px;
+    width: auto;
+    margin: 14px 0;
+}
+
+.signup-form {
+    padding-top: 24px;
+}
+
+.form-block {
+    width: 100%;
+}
+
+.route-link{
+    color: #3F53B5;
+    cursor: pointer;
+}
+
+.checkbox-margin {
+    margin: 0 5px;
+}
+
+.checkbox-label {
+    padding-left: 16px;
+}
+
+button {
+    width: 100%;
+    margin-top: 36px;
+}

@@ -1,0 +1,16 @@
+.navbar {
+    background-color: #ffffff;
+    padding: 0 24px;
+}
+
+.brand {
+    height: 56px;
+}
+
+.menu-items {
+    font-weight: 700;
+}
+
+.active {
+    color: #3D5AFE;
+}

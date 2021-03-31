@@ -1,0 +1,19 @@
+.duration {
+  color: #666666;
+}
+
+.role {
+  margin: 0;
+  padding: 0;
+  font-weight: 700;
+}
+
+.description {
+  color: #666666;
+  text-align: left;
+}
+
+
+.example-full-width {
+  width: 100%;
+}

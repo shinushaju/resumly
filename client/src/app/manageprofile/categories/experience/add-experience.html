@@ -1,0 +1,55 @@
+<h1 mat-dialog-title>Add work experience</h1>
+
+<mat-dialog-content>
+    <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput placeholder="Title" [(ngModel)]="title" name="title" required>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Employment type</mat-label>
+        <mat-select [(ngModel)]="type">
+          <mat-option value="Full-time">Full-time</mat-option>
+          <mat-option value="Part-time">Part-time</mat-option>
+          <mat-option value="Self-employed">Self-employed</mat-option>
+          <mat-option value="Freelance">Freelance</mat-option>
+          <mat-option value="Intership">Intership</mat-option>
+          <mat-option value="Trainee">Trainee</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Company name</mat-label>
+        <input matInput placeholder="Company name" [(ngModel)]="companyName" name="companyName" required>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Location</mat-label>
+        <input matInput placeholder="Location" [(ngModel)]="location" name="location" required>
+    </mat-form-field>
+
+    <div fxLayout="row" fxLayoutAlign="space-between none">
+        <div fxFlex="50">
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Start date</mat-label>
+                <input matInput placeholder="Ex. August 2020" [(ngModel)]="startDate" name="startDate" required>
+            </mat-form-field>
+        </div>
+        <div fxFlex="50">
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>End date</mat-label>
+                <input matInput placeholder="Ex. Present" [(ngModel)]="endDate" name="endDate" required>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="Grade" [(ngModel)]="description" name="description"></textarea>
+    </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-flat-button color="primary" (click)="closeDialog()" cdkFocusInitial>Add Education</button>
+</mat-dialog-actions>

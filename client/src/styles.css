@@ -1,0 +1,43 @@
+/* You can add global styles to this file, and also import other style files */
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+@import "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Poppins:wght@300;400;500;600;700&display=swap";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Lato", sans-serif;
+}
+h1 {
+  font-family: "Poppins", sans-serif;
+}
+
+.section {
+  padding: 24px 0 48px 0;
+}
+
+.edit-button {
+  font-weight: 700;
+}
+
+.section-title {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.section-content {
+  padding: 48px 0 0 0;
+}
+
+.section-content-item {
+  margin-top: 24px;
+}
+
+.hand-icon {
+  height: 24px;
+  width: auto;
+  padding-left: 8px;
+}

@@ -1,0 +1,44 @@
+mat-card {
+  transition: none !important;
+  box-shadow: none !important;
+}
+
+.project-title {
+  padding: 16px 0;
+}
+
+mat-chip {
+  background-color: #ebf0fe !important;
+  color: #3d5afe !important;
+  font-size: smaller;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.example-chip-list {
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:focus {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}

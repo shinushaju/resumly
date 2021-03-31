@@ -1,0 +1,29 @@
+.container {
+    padding: 48px 48px;
+    display: flex;
+    justify-content: center;
+}
+.content {
+    width: 60%;
+    display: flex;
+    justify-content: left;
+}
+
+.profile-url {
+    text-align: center;
+    margin: 36px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.link {
+    background-color: rgb(235, 240, 255);
+    padding: 4px 24px;
+    position: absolute;
+    border-radius: 8px;
+}
+
+.link button {
+    color:#3D5AFE;
+}

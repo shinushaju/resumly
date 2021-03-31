@@ -1,0 +1,29 @@
+@import '../../styles.css';
+
+body { margin: 0; font-family: "Lato" }
+h1 { font-family: "Poppins" }
+
+.container {
+    padding: 100px 0px;
+    margin: 24px 0;
+}
+.container .box {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.illustration {
+    height: 200px;
+    width: auto;
+}
+
+.primary-button {
+    padding: 8px 16px;
+    margin-top: 14px;
+    font-size: larger;
+    font-weight: 700;
+}

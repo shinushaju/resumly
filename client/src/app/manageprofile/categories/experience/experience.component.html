@@ -1,0 +1,35 @@
+<div class="section">
+    <div fxLayout="row" fxLayoutAlign="space-between stretch">
+        <div class="child-1">
+            <strong class="mat-subheading-2 section-title">Work Experience</strong>
+        </div>
+        <div class="child-2">
+            <div class="edit-button"><button mat-flat-button color="primary" (click)="openDialog()">Add an
+                    Experience</button></div>
+        </div>
+    </div>
+
+    <div class="section-content">
+        <div fxLayout="column" fxLayout.md="row" fxLayoutGap="20px" class="section-content-item">
+            <div *ngFor="let info of experienceInfo" fxLayout.lt-md="column" fxLayout.md="column" fxLayout="row"
+                fxFlex.md="50" fxLayoutAligmnet="space-between none" fxLayoutGap="20px">
+                <div fxFlex.lt-md="100" fxFlex="50">
+                    <div class="duration">
+                        {{info.startDate}} - {{info.endDate}}
+                    </div>
+                </div>
+                <div fxFlex.lt-md="100" fxFlex="50">
+                    <div class="experience-info">
+                        <h3 class="role">{{info.title}} at {{info.companyName}}</h3>
+                        <h4 class="location">{{info.location}} - {{info.type}}</h4>
+                        <p class="description">{{info.description}}</p>
+                        <div class="action-buttons">
+                            <button mat-stroked-button color="primary" style="margin-right: 16px;">Edit</button>
+                            <button mat-button color="warn">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

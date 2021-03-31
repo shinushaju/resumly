@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="box">
+        <img class="resumly-icon" src="../../assets/images/resumly-icon.svg" alt="resumly">
+        <h1 class="mat-display-1" style="margin-bottom: 5px;">Welcome back<span><img src="../../assets/images/hand-icon.svg" class="hand-icon"></span></h1>
+        <h2 class="mat-subheading-4">Sign in to your resumly account</h2>
+        <p>Don't have an account? <span class="route-link" routerLink="/signup">Sign up</span></p>
+
+        <div class="signup-form">
+            <div>
+                <mat-form-field appearance="outline" class="form-block">
+                    <mat-label>Email address</mat-label>
+                    <input matInput placeholder="Placeholder">
+                    <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                    <mat-hint>Hint</mat-hint>-->
+                  </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="outline" class="form-block">
+                    <mat-label>Password</mat-label>
+                    <input matInput placeholder="Placeholder">
+                    <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                    <mat-hint>Hint</mat-hint>-->
+                  </mat-form-field>
+            </div>
+        </div>
+
+        <!--<mat-checkbox class="checkbox-margin" [(ngModel)]="checked" color="primary">
+            <span class="checkbox-label">I agree to all the <span class="route-link">Terms & Conditions</span> and the <span class="route-link">Privacy Policy</span>.</span>
+        </mat-checkbox>-->
+
+        <button mat-flat-button color="primary" class="primary-button" routerLink="">Sign in</button><br>      
+    </div> 
+</div>

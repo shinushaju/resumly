@@ -1,0 +1,39 @@
+<div class="section">
+
+    <div fxLayout="row" fxLayoutAlign="space-between stretch">
+        <div class="child-1">
+            <strong class="mat-subheading-2 section-title">Projects</strong>
+        </div>
+        <div class="child-2">
+            <div class="edit-button"><button mat-flat-button color="primary" (click)="openDialog()">Add a
+                    Project</button></div>
+        </div>
+    </div>
+
+    <div class="section-content">
+        <div fxLayout="column" fxLayout.md="row" fxLayoutGap="20px">
+            <div class="cardWrap" fxLayout.lt-md="column" fxLayout.md="column" fxLayout="row" fxFlex.md="100%"
+                fxLayoutAligmnet="space-between none" fxLayoutGap="20px">
+                <div *ngFor="let info of projectInfo" fxFlex.lt-md="100" fxFlex.gt-md="100">
+                    <mat-card class="card">
+                        <img mat-card-image src="../../../../assets/images/project-cover1.jpg" alt="Project Name" />
+                        <mat-card-title class="project-title"><a href="{{info.url}}"
+                                target="_blank">{{info.projectName}}</a></mat-card-title>
+                        <mat-card-content>
+                            <p>{{info.description}}</p>
+                            <mat-chip-list>
+                                <mat-chip *ngFor="let tags of info.projectTags">{{tags.name}}</mat-chip>
+                                <!-- <mat-chip>{{tags.name}}</mat-chip> -->
+                            </mat-chip-list>
+                            <mat-card-actions style="margin-top: 8px;">
+                                <button mat-stroked-button color="primary">Edit</button>
+                                <button mat-button color="warn" style="margin-left: 16px;">Delete</button>
+                            </mat-card-actions>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

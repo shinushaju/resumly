@@ -1,0 +1,80 @@
+<div class="container">
+    <div class="box">
+        <img class="resumly-icon" src="../../assets/images/resumly-icon.svg" alt="resumly">
+        <h1 class="mat-display-1" style="margin-bottom: 5px;">Welcome to resumly<span><img src="../../assets/images/hand-icon.svg" class="hand-icon"></span></h1>
+        <h4 class="mat-subheading-4">Just fill out few details and you'll be good to go.<br>You can always change this later.</h4>
+
+        <div class="onboarding-form-form">
+
+            <mat-horizontal-stepper labelPosition="bottom" #stepper>
+
+                <mat-step [stepControl]="firstFormGroup">
+                  <form [formGroup]="firstFormGroup">
+                    <mat-form-field  appearance="fill"  class="form-block">
+                      <mat-label>Username</mat-label>
+                      <input matInput placeholder="Your unique username" formControlName="firstCtrl" required>
+                    </mat-form-field>
+                    <div>
+                      <button mat-flat-button color="primary" matStepperNext >Next</button>
+                    </div>
+                  </form>
+                </mat-step>
+
+                <mat-step [stepControl]="secondFormGroup" optional>
+                  <form [formGroup]="secondFormGroup">
+                    <mat-form-field  appearance="fill"  class="form-block">
+                      <mat-label>Display name</mat-label>
+                      <input matInput formControlName="secondCtrl" placeholder="Your full name"
+                             required>
+                    </mat-form-field>
+                    <div>
+                      <button mat-stroked-button color="primary" matStepperPrevious>Back</button>
+                      <button mat-flat-button color="primary" matStepperNext>Next</button>
+                    </div>
+                  </form>
+                </mat-step>
+
+                <mat-step [stepControl]="thirdFormGroup" optional>
+                    <form [formGroup]="thirdFormGroup">
+                      <mat-form-field  appearance="fill"  class="form-block">
+                        <mat-label>Desgination</mat-label>
+                        <input matInput formControlName="thirdCtrl" placeholder="Ex. Software Engineer" required>
+                      </mat-form-field>
+                      <div>
+                        <button mat-stroked-button color="primary" matStepperPrevious>Back</button>
+                        <button mat-flat-button color="primary" matStepperNext>Next</button>
+                      </div>
+                    </form>
+                  </mat-step>
+
+                  <mat-step [stepControl]="fourthFormGroup" optional>
+                    <form [formGroup]="fourthFormGroup">
+                      <mat-form-field  appearance="fill"  class="form-block">
+                        <mat-label>Current location</mat-label>
+                        <input matInput formControlName="fourthCtrl" placeholder="Current location" required>
+                      </mat-form-field>
+                      <div>
+                        <button mat-stroked-button color="primary" matStepperPrevious>Back</button>
+                        <button mat-flat-button color="primary" matStepperNext>Next</button>
+                      </div>
+                    </form>
+                  </mat-step> 
+
+                  <mat-step [stepControl]="fifthFormGroup" optional>
+                    <form [formGroup]="fifthFormGroup">
+                      <mat-form-field  appearance="fill"  class="form-block">
+                        <mat-label>Bio</mat-label>
+                        <textarea matInput formControlName="fifthCtrl" optional></textarea>
+                      </mat-form-field>
+                      <div>
+                        <button mat-stroked-button color="primary" matStepperPrevious>Back</button>
+                        <button mat-flat-button color="primary" matStepperNext routerLink="/myprofile">Continue</button>
+                      </div>
+                    </form>
+                  </mat-step> 
+              </mat-horizontal-stepper>
+
+        </div>
+
+    </div> 
+</div>
