@@ -1,4 +1,5 @@
 .footer {
-    padding: 24px 0;
-    color: #999999;
+  bottom: 0;
+  padding: 48px 0 24px 0;
+  color: #999999;
 }

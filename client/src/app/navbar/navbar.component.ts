@@ -1,47 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from '../models/menu.model';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
+  constructor(private authService: AuthService, private router: Router) {}
 
-  menuItems: MenuItem[] = [
-    {
-      label: 'Download Resume',
-      showOnMobile: true,
-      showOnTablet: true,
-      showOnDesktop: true,
-      route: '/download'
-    },
-    {
-      label: 'My Profile',
-      showOnMobile: false,
-      showOnTablet: true,
-      showOnDesktop: true,
-      route: '/myprofile'
-    },
-    {
-      label: 'Settings',
-      showOnMobile: false,
-      showOnTablet: true,
-      showOnDesktop: true,
-      route: '/settings'
-    },
-    {
-      label: 'Log in',
-      showOnMobile: true,
-      showOnTablet: true,
-      showOnDesktop: true,
-      route: '/signin'
-    }
-  ];
+  ngOnInit(): void {}
 
-  constructor() { }
-
-  ngOnInit(): void {
+  loggedin() {
+    return this.authService.isLoggedin;
   }
-  
+
+  userLogOut() {
+    this.authService.logout();
+  }
 }

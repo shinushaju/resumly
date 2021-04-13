@@ -1,0 +1,53 @@
+.navbar {
+  background-color: transparent;
+  padding: 48px;
+}
+
+.navbar-sm {
+  padding: 36px 24px;
+}
+
+.brand {
+  height: 36px;
+}
+
+.brand-sm {
+  height: 30px;
+}
+
+.menu-items {
+  font-weight: 700;
+}
+
+.menu-items {
+  font-size: smaller;
+}
+
+.duration {
+  color: #666666;
+}
+
+.role {
+  margin: 0;
+  padding: 0;
+  font-weight: 700;
+}
+
+.description {
+  color: #666666;
+  text-align: left;
+}
+
+.university {
+  margin: 0;
+  padding: 0;
+  font-weight: 700;
+}
+
+.degree {
+  margin: 0;
+}
+
+.location {
+  color: #666666;
+}

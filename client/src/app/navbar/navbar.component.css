@@ -1,16 +1,24 @@
 .navbar {
-    background-color: #ffffff;
-    padding: 0 24px;
+  background-color: transparent;
+  padding: 48px;
+}
+
+.navbar-sm {
+  padding: 36px 24px;
 }
 
 .brand {
-    height: 56px;
+  height: 36px;
+}
+
+.brand-sm {
+  height: 30px;
 }
 
 .menu-items {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .active {
-    color: #3D5AFE;
+  color: #3d5afe;
 }

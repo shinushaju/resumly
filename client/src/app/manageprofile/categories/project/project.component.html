@@ -1,39 +1,55 @@
 <div class="section">
 
-    <div fxLayout="row" fxLayoutAlign="space-between stretch">
+    <div fxLayout="row" fxLayoutAlign="space-between stretch" *ngIf="projectDataSource.length != 0">
         <div class="child-1">
             <strong class="mat-subheading-2 section-title">Projects</strong>
         </div>
         <div class="child-2">
-            <div class="edit-button"><button mat-flat-button color="primary" (click)="openDialog()">Add a
+            <div class="edit-button"><button mat-flat-button color="primary" (click)="openDialog('Add', {})">Add a
                     Project</button></div>
         </div>
     </div>
 
-    <div class="section-content">
-        <div fxLayout="column" fxLayout.md="row" fxLayoutGap="20px">
-            <div class="cardWrap" fxLayout.lt-md="column" fxLayout.md="column" fxLayout="row" fxFlex.md="100%"
-                fxLayoutAligmnet="space-between none" fxLayoutGap="20px">
-                <div *ngFor="let info of projectInfo" fxFlex.lt-md="100" fxFlex.gt-md="100">
-                    <mat-card class="card">
-                        <img mat-card-image src="../../../../assets/images/project-cover1.jpg" alt="Project Name" />
-                        <mat-card-title class="project-title"><a href="{{info.url}}"
-                                target="_blank">{{info.projectName}}</a></mat-card-title>
-                        <mat-card-content>
-                            <p>{{info.description}}</p>
-                            <mat-chip-list>
-                                <mat-chip *ngFor="let tags of info.projectTags">{{tags.name}}</mat-chip>
-                                <!-- <mat-chip>{{tags.name}}</mat-chip> -->
-                            </mat-chip-list>
-                            <mat-card-actions style="margin-top: 8px;">
-                                <button mat-stroked-button color="primary">Edit</button>
-                                <button mat-button color="warn" style="margin-left: 16px;">Delete</button>
-                            </mat-card-actions>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
+
+
+    <div *ngIf="projectDataSource.length === 0">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly stretch" class="empty-state">
+            <div fxFlex="70" fxFlexOrder="1">
+                <h1 class="mat-display-1"
+                    style="padding:0 0 8px 0;margin: 0 0 8px 0;font-weight: bold;letter-spacing: -2px;">Showcase Your
+                    Projects</h1>
+                <h4> Showcase your work and let others know about yourself. An important thing to remember when
+                    uploading your projects is to take
+                    your time to put together the best image of your work.</h4>
+                <br>
+                <button mat-flat-button class="custom-lg-btn" (click)="openDialog('Add', {})">Add a Project</button>
+            </div>
+            <div fxFlex fxFlexOrder="2" style="display: flex;justify-content: center;">
+                <img src="../../../../assets/images/hand.svg" style="display: inline-block;height: 200px; width: auto;">
             </div>
         </div>
+    </div>
 
+
+    <div class="section-content" *ngFor="let item of projectDataSource">
+        <div fxLayout.lt-md="column" fxLayout.gt-md="row" fxLayoutAlign="start stretch" class="project-container">
+            <div fxFlex="50" class="project-content" [ngClass.lt-md]="'project-content-sm'">
+                <h4>{{item.projectDate}}</h4>
+                <h1 class="mat-display-2 title" [ngClass.lt-md]="'mat-display-1'" style="margin-bottom:24px">
+                    <b>{{item.projectName}}</b></h1>
+                <p>{{item.description}}</p>
+                <br>
+                <div class="action-buttons">
+                    <span class="action-button-item" style="color: black"
+                        (click)="openDialog('Update',item)">Edit</span>
+                    <span class="action-button-item" style="color: red"
+                        (click)="openDialog('Delete',item)">Delete</span>
+                </div>
+            </div>
+            <div fxFlex="50" class="project-cover-box">
+                <img class="project-cover" src="data:image/{{item.imageType}};base64,{{item.projectCover}}"
+                    alt="{{item.projectName}}" />
+            </div>
+        </div>
     </div>
 </div>

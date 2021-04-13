@@ -1,33 +1,49 @@
 <div class="container">
-    <div class="box">
-        <img class="resumly-icon" src="../../assets/images/resumly-icon.svg" alt="resumly">
-        <h1 class="mat-display-1" style="margin-bottom: 5px;">Let’s create your account!</h1>
-        <h2 class="mat-subheading-4">Please sign up with your email</h2>
-        <p>Already have an account? <span class="route-link" routerLink="/signin">Sign in</span></p>
-
-        <div class="signup-form">
-            <div>
-                <mat-form-field appearance="outline" class="form-block">
-                    <mat-label>Email address</mat-label>
-                    <input matInput placeholder="Placeholder">
-                    <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                    <mat-hint>Hint</mat-hint>-->
-                  </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field appearance="outline" class="form-block">
-                    <mat-label>Create a password</mat-label>
-                    <input matInput placeholder="Placeholder">
-                    <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                    <mat-hint>Hint</mat-hint>-->
-                  </mat-form-field>
+    <div class="box" [ngClass.lt-md]="'box-lt-md'">
+        <div class="form" [ngClass.lt-md]="'form-sm'">
+            <img class="resumly-icon" routerLink="/" src="../../assets/images/resumly-icon.svg" alt="resumly">
+            <h1 class="mat-display-1" style="margin-bottom: 5px;letter-spacing:-1px"><b>Let’s create your account!</b>
+            </h1>
+            <h2 class="mat-subheading-4">Please sign up with your email</h2>
+            <p>Already have an account? <span class="route-link" routerLink="/signin">Sign in</span></p>
+            <mat-error *ngIf="error" style="padding:8px 0">{{ error }}</mat-error>
+            <div class="section">
+                <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+                    <mat-form-field appearance="outline" class="form-block">
+                        <mat-label>Email address</mat-label>
+                        <input matInput placeholder="Enter email address" formControlName="email">
+                        <mat-error
+                            *ngIf="(signupFormControl.email.touched || submitted) && signupFormControl.email.errors?.required">
+                            Email is required</mat-error>
+                        <mat-error *ngIf="signupFormControl.email.touched && signupFormControl.email.errors?.email">
+                            Enter a valid email address</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="form-block">
+                        <mat-label>Create a password</mat-label>
+                        <input matInput placeholder="Create a password" [type]="hide ? 'password' : 'text'"
+                            class="form-control" formControlName="password">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-error
+                            *ngIf="(signupFormControl.password.touched || submitted) && signupFormControl.password.errors?.required">
+                            Password is required</mat-error>
+                        <mat-error
+                            *ngIf="signupFormControl.password.touched && signupFormControl.password.errors?.invalidPassword">
+                            Password must have min. 8 characters and at least 1 uppercase letter, 1 lowercase letter and
+                            a digit.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-checkbox formControlName="checkbox" class="checkbox-margin" color="primary">
+                        <label class="checkbox-label">I agree to all the <span class="route-link">Terms &
+                                Conditions</span>
+                            and the <span class="route-link">Privacy Policy</span>.</label>
+                    </mat-checkbox>
+                    <button mat-flat-button color="primary" class="primary-button auth-button"
+                        [disabled]="!signupForm.valid">Sign up</button>
+                </form>
             </div>
         </div>
-
-        <mat-checkbox class="checkbox-margin" [(ngModel)]="checked" color="primary">
-            <span class="checkbox-label">I agree to all the <span class="route-link">Terms & Conditions</span> and the <span class="route-link">Privacy Policy</span>.</span>
-        </mat-checkbox>
-
-        <button mat-flat-button color="primary" class="primary-button" routerLink="/start">Sign up</button><br>      
-    </div> 
+    </div>
 </div>

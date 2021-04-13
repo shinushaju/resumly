@@ -2,21 +2,14 @@
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Poppins:wght@300;400;500;600;700&display=swap";
 
-html,
 body {
   height: 100%;
-}
-
-body {
   margin: 0;
-  font-family: "Lato", sans-serif;
-}
-h1 {
-  font-family: "Poppins", sans-serif;
+  /*background-color: rgb(61, 90, 254, 0.03);*/
 }
 
 .section {
-  padding: 24px 0 48px 0;
+  padding: 36px 0;
 }
 
 .edit-button {
@@ -29,15 +22,186 @@ h1 {
 }
 
 .section-content {
-  padding: 48px 0 0 0;
+  padding: 24px 0 0 0;
 }
 
 .section-content-item {
-  margin-top: 24px;
+  margin-top: 16px;
 }
 
 .hand-icon {
   height: 24px;
   width: auto;
   padding-left: 8px;
+}
+
+.brand,
+.resumly-icon {
+  cursor: pointer;
+}
+
+img:focus {
+  outline: none;
+  cursor: pointer;
+}
+
+a:focus {
+  outline: none;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
+  cursor: pointer;
+}
+
+.empty-state {
+  background-color: #3d5afe;
+  color: #ffffff;
+  padding: 36px;
+  border-radius: 24px;
+}
+.custom-lg-btn {
+  font-size: larger;
+  margin-top: 10px;
+}
+.custom-snackbar {
+  background-color: #3d5afe;
+  color: #ffffff;
+}
+
+.container {
+  padding: 8px 0px;
+  display: flex;
+  justify-content: center;
+}
+.content {
+  width: 75%;
+  display: flex;
+  justify-content: left;
+}
+
+.content-sm {
+  width: 80%;
+  display: flex;
+  justify-content: left;
+}
+
+.display-image {
+  height: 130px;
+  width: 130px;
+  background-position: 100% 100%;
+  border-radius: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.project-container {
+  background-color: #ffffff;
+  border: 1px solid #c5cae9;
+  border-style: dashed;
+  border-radius: 24px;
+  margin: 1px;
+}
+
+.project-content {
+  padding: 36px 48px;
+}
+
+.project-content-sm {
+  padding: 24px;
+  border-radius: 24px;
+}
+
+.project-cover-box {
+  padding:24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-cover {
+  max-width: 100%;
+  border-radius: 12px;
+}
+
+.title {
+  letter-spacing: -2px;
+}
+
+.action-buttons {
+  margin: 12px 0;
+}
+
+.action-button-item {
+  padding: 4px 0;
+  margin: 24px 12px 0px 0px;
+  cursor: pointer;
+  text-decoration: underline;
+  color: #666666;
+}
+
+.duration {
+  color: #666666;
+}
+
+.data-container {
+  background-color: #ffffff;
+  border: 1px solid #c5cae9;
+  border-style: dashed;
+  border-radius: 24px;
+  overflow: hidden;
+  padding: 36px;
+  margin: 1px;
+}
+
+.data-container-sm {
+  border-radius: 24px;
+  overflow: hidden;
+  padding: 24px;
+}
+
+.role {
+  margin: 0;
+  padding: 0;
+  font-weight: 700;
+}
+
+.description {
+  color: #666666;
+  text-align: left;
+}
+
+.university {
+  margin: 0;
+  padding: 0;
+  font-weight: 700;
+}
+
+.degree {
+  margin: 0;
+}
+
+.location {
+  color: #666666;
+}
+
+.links {
+  margin: 8px 0px;
+  font-size: larger;
+}
+
+.links a {
+  color: #999999;
+}
+
+.settings-section {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.settings-section-sm {
+  width: 100%;
+  margin: 0 auto;
 }

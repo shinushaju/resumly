@@ -1,0 +1,148 @@
+<mat-toolbar fxLayout="row" class="navbar" [ngClass.lt-md]="'navbar-sm'">
+    <span fxFlex><img class="brand" [ngClass.lt-md]="'brand-sm'" src="../../assets/images/resumly-logo.svg"
+            alt="resumly"></span>
+    <button mat-flat-button color="primary" routerLink="/myprofile">
+        <span class="menu-items" [ngClass.lt-md]="'menu-items'">Create Your Page</span>
+    </button>
+</mat-toolbar>
+<div class="container">
+    <div class="content" [ngClass.lt-md]="'content-sm'">
+
+        <div class="section">
+
+            <!-- About Info -->
+
+            <img *ngIf="aboutDataSource.displayImage"
+                src="data:image/{{ aboutDataSource.imageType }};base64,{{ aboutDataSource.displayImage}}"
+                onerror="this.src='../assets/images/Avatar.svg'" class="display-image" alt="Resumly">
+            <h1 class="mat-display-3" style="margin: 24px 0" [ngClass.xs]="'mat-display-1'">
+                Hi! I’m {{ aboutDataSource.fullName }}, <span style="color: #3d5afe;">{{ aboutDataSource.designation
+                    }}</span> based in {{
+                aboutDataSource.location }}.</h1>
+            <h4 *ngIf="aboutDataSource.bio">{{aboutDataSource.bio}}</h4>
+
+            <!-- About Info Ends -->
+
+            <!-- Project Info -->
+
+            <div class="section" *ngIf="projectDataSource.length != 0">
+
+                <div fxLayout="row" fxLayoutAlign="space-between stretch" *ngIf="projectDataSource.length != 0">
+                    <strong class="mat-subheading-2 section-title">Projects</strong>
+                </div>
+
+                <div fxLayout.lt-md="column" fxLayout.gt-md="row" fxLayoutAlign="start stretch"
+                    class="project-container" *ngFor="let item of projectDataSource" style="margin-bottom: 24px;">
+                    <div fxFlex="50" class="project-content" [ngClass.lt-md]="'project-content-sm'">
+                        <h4>{{item.projectDate}}</h4>
+                        <h1 class="mat-display-2 title" [ngClass.lt-md]="'mat-display-1'" style="margin-bottom:24px">
+                            <b>{{item.projectName}}</b>
+                        </h1>
+                        <p>{{item.description}}</p>
+                        <br>
+                        <a *ngIf="item.url" href="{{item.url}}" target="_blank" mat-stroked-button
+                            color="primary"><b>View Project&ensp;&ensp;</b>
+                            <mat-icon>arrow_forward</mat-icon>
+                        </a>
+                    </div>
+                    <div fxFlex="50" class="project-cover-box">
+                        <img class="project-cover" src="data:image/{{item.imageType}};base64,{{item.projectCover}}"
+                            alt="{{item.projectName}}" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Info Ends -->
+
+            <!-- Experience Info -->
+
+            <div class="section" *ngIf="experienceDataSource.length != 0">
+
+                <div fxLayout="row" fxLayoutAlign="space-between stretch">
+                    <strong class="mat-subheading-2 section-title">Experience</strong>
+                </div>
+
+                <div fxLayout="column" fxLayout.md="row" fxLayoutGap="20px" class="section-content-item"
+                    *ngFor="let item of experienceDataSource">
+                    <div fxLayout.lt-md="column" fxLayout.md="column" fxLayout="row" fxFlex.md="50"
+                        fxLayoutAligmnet="space-between none" fxLayoutGap="20px" class="data-container"
+                        [ngClass.lt-md]="'data-container-sm'">
+                        <div fxFlex.lt-md="100" fxFlex="40">
+                            <div class="duration">
+                                {{item.startDate}} - {{item.endDate}}
+                            </div>
+                        </div>
+                        <div fxFlex.lt-md="100" fxFlex="50">
+                            <div class="experience-info">
+                                <h3 class="role">{{item.title}} at {{item.companyName}}</h3>
+                                <h4 class="location">{{item.location}} - {{item.type}}</h4>
+                                <p class="description">{{item.description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experience Info Ends -->
+
+            <!-- Education Info -->
+
+            <div class="section" *ngIf="educationDataSource.length != 0">
+
+                <div fxLayout="row" fxLayoutAlign="space-between stretch" *ngIf="educationDataSource.length != 0">
+                    <strong class="mat-subheading-2 section-title">Education</strong>
+                </div>
+
+                <div fxLayout="column" fxLayout.md="row" fxLayoutGap="20px" class="section-content-item"
+                    *ngFor="let item of educationDataSource">
+                    <div fxLayout.lt-md="column" fxLayout.md="column" fxLayout="row" fxFlex.md="50"
+                        fxLayoutAligmnet="space-between none" fxLayoutGap="20px" class="data-container"
+                        [ngClass.lt-md]="'data-container-sm'">
+                        <div fxFlex.lt-md="100" fxFlex="40">
+                            <div class="duration">
+                                {{item.startDate}} - {{item.endDate}}
+                            </div>
+                        </div>
+                        <div fxFlex.lt-md="100" fxFlex="50">
+                            <div class="experience-info">
+                                <h3 class="university">{{item.school}}</h3>
+                                <h4 class="degree">{{item.fieldOfStudy}}</h4>
+                                <h4 class="location">{{item.degree}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education Info Ends -->
+
+            <!-- Contacts info  -->
+
+            <div class="section" *ngIf="contactDataSource.length !== 0">
+                <div fxLayout="row" fxLayoutAlign="space-between stretch">
+                    <strong class="mat-subheading-2 section-title">Contacts</strong>
+                </div>
+                <h2>Let's Connect<span><img src="../../../../assets/images/hand-icon.svg" class="hand-icon"></span>
+                </h2>
+                <div fxLayout.xs="column" fxLayout.sm="column" fxLayout="row" fxLayoutAlign="start stretch">
+                    <div class="links" *ngFor="let item of contactDataSource" style="padding-right: 24px;">
+                        <a href="{{ item.link }}" target="_blank">
+                            <h1>{{ item.type }}</h1>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Contact Info Ends -->
+        </div>
+
+    </div>
+
+</div>
+
+<div class="container">
+    <div class="content" [ngClass.lt-md]="'content-sm'">
+        <app-footer></app-footer>
+    </div>
+</div>

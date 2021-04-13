@@ -1,25 +1,47 @@
-<mat-toolbar fxLayout="row" class="navbar">
-    <span fxFlex><img class="brand" src="../../assets/images/resumly-logo.svg" alt="resumly"></span>
-    <button mat-button *ngFor="let item of menuItems" routerLink="{{item.route}}" routerLinkActive="active"
-        [fxShow]="item.showOnDesktop" 
-        [fxShow.xs]="item.showOnMobile"
-        [fxShow.sm]="item.showOnTablet">
-        <!--<mat-icon class="mr">{{item.icon}}</mat-icon>-->
-        <span class="menu-items">{{item.label}}</span>
+<mat-toolbar fxLayout="row" class="navbar" [ngClass.lt-md]="'navbar-sm'">
+    <span fxFlex><img class="brand" [ngClass.lt-md]="'brand-sm'" routerLink="/myprofile"
+            src="../../assets/images/resumly-logo.svg" alt="resumly"></span>
+
+    <button *ngIf="loggedin()" mat-button routerLink='/myprofile' routerLinkActive="active" [fxShow]="true"
+        [fxShow.xs]="false" [fxShow.sm]="true">
+        <span class="menu-items">My Profile</span>
     </button>
-    <button mat-icon-button [matMenuTriggerFor]="dropMenu" fxHide fxShow.xs>
+    <button *ngIf="loggedin()" mat-button routerLink='/settings' routerLinkActive="active" [fxShow]="true"
+        [fxShow.xs]="false" [fxShow.sm]="true">
+        <span class="menu-items">Settings</span>
+    </button>
+    <button *ngIf="!loggedin()" mat-button routerLink='/signin' routerLinkActive="active" [fxShow]="true"
+        [fxShow.xs]="true" [fxShow.sm]="true">
+        <span class="menu-items">Log in</span>
+    </button>
+    <button *ngIf="loggedin()" mat-button (click)="userLogOut()" [fxShow]="true" [fxShow.xs]="false"
+        [fxShow.sm]="false">
+        <span class="menu-items">Log out</span>
+    </button>
+
+
+    <button *ngIf="loggedin()" mat-icon-button [matMenuTriggerFor]="dropMenu" fxHide fxShow.xs>
         <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #dropMenu="matMenu">
-        <ng-container *ngFor="let item of menuItems">
-            <div [fxShow]="!item.showOnDesktop" 
-                 [fxShow.sm]="!item.showOnTablet" 
-                 [fxShow.xs]="!item.showOnMobile">
-                <button mat-menu-item>
-                    <span class="menu-items">{{item.label}}</span>
-                </button>
-                <mat-divider></mat-divider>
-            </div>
-        </ng-container>
+        <button *ngIf="loggedin()" mat-button routerLink='/myprofile' routerLinkActive="active" [fxShow]="false"
+            [fxShow.xs]="true" [fxShow.sm]="false">
+            <span class="menu-items">My Profile</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button *ngIf="loggedin()" mat-button routerLink='/settings' routerLinkActive="active" [fxShow]="false"
+            [fxShow.xs]="true" [fxShow.sm]="false">
+            <span class="menu-items">Settings</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button *ngIf="!loggedin()" mat-button routerLink='/signin' routerLinkActive="active" [fxShow]="true"
+            [fxShow.xs]="true" [fxShow.sm]="true">
+            <span class="menu-items">Log in</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button *ngIf="loggedin()" mat-button (click)="userLogOut()" [fxShow]="false" [fxShow.xs]="true"
+            [fxShow.sm]="true">
+            <span class="menu-items">Log out</span>
+        </button>
     </mat-menu>
 </mat-toolbar>

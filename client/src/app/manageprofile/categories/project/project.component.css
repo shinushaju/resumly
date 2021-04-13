@@ -1,29 +1,4 @@
-mat-card {
-  transition: none !important;
-  box-shadow: none !important;
-}
-
-.project-title {
-  padding: 16px 0;
-}
-
-mat-chip {
-  background-color: #ebf0fe !important;
-  color: #3d5afe !important;
-  font-size: smaller;
-}
-
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-}
-
 .example-full-width {
-  width: 100%;
-}
-
-.example-chip-list {
   width: 100%;
 }
 
@@ -41,4 +16,18 @@ a:focus {
 
 a:active {
   text-decoration: none;
+}
+
+.crop-button {
+  text-align: center;
+  margin: 8px auto;
+}
+
+.button-align-center {
+  top: 50%;
+  font-weight: 700;
+}
+
+.preview {
+  border-radius: 18px;
 }

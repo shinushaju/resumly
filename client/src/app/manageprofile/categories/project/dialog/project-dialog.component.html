@@ -1,0 +1,92 @@
+<h1 mat-dialog-title>{{action}} Project</h1>
+
+<form [formGroup]="projectForm">
+
+  <mat-dialog-content>
+    <div *ngIf="action != 'Delete'; else elseTemplate">
+
+      <div style="padding: 12px 0">
+        <div class="text-center col-md-12">
+          <img [src]="croppedImage" height="150px;" class="preview"
+            onerror="this.src='../../../../assets/images/bg.svg'">
+          <input class="input-file" id="my-file" type="file" (change)="fileChangeEvent($event)"
+            accept="image/png,image/jpg,image/jpeg,image/svg">
+          <label tabindex="0" for="my-file" class="input-file-trigger">{{action}} Image</label>
+        </div>
+      </div>
+
+      <image-cropper *ngIf="crop" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+        [aspectRatio]="4 / 3" [resizeToWidth]="0" format="png" (imageCropped)="imageCropped($event)">
+      </image-cropper>
+      <div class="crop-button">
+        <div class="button-align-center">
+          <button mat-flat-button color="primary" *ngIf="show" (click)="cropImage()">Crop Image <mat-icon
+              aria-hidden="false" aria-label="crop icon">crop</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Project Title</mat-label>
+        <input #projectName matInput placeholder="Project name" [(ngModel)]="local_data.projectName"
+          formControlName="projectName">
+        <mat-hint align="end">{{projectName.value.length}} / 49</mat-hint>
+        <mat-error
+          *ngIf="(projectFormControl.projectName.touched || submitted) && projectFormControl.projectName.errors?.required">
+          Project title is required
+        </mat-error>
+        <mat-error *ngIf="projectFormControl.projectName.touched && projectFormControl.projectName.errors?.maxlength">
+          Project title should be less than 50 characters
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Project On</mat-label>
+        <input matInput placeholder="Ex. August 2017" [(ngModel)]="local_data.projectDate"
+          formControlName="projectDate">
+        <mat-error
+          *ngIf="(projectFormControl.projectDate.touched || submitted) && projectFormControl.projectDate.errors?.required">
+          Project date is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Project URL</mat-label>
+        <input #url matInput type="url" placeholder="Link to the project..." [(ngModel)]="local_data.url"
+          formControlName="url">
+        <mat-error *ngIf="projectFormControl.url.touched && projectFormControl.url.errors?.pattern">
+          Enter a valid project url (https://example.com)
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea #description rows="10" matInput placeholder="Ex. Give a project description in max 200 characters..."
+          [(ngModel)]="local_data.description" formControlName="description"></textarea>
+        <mat-hint align="end">{{description.value.length}} / 200</mat-hint>
+        <mat-error
+          *ngIf="(projectFormControl.description.touched || submitted) && projectFormControl.description.errors?.required">
+          Project description is required
+        </mat-error>
+        <mat-error *ngIf="projectFormControl.description.touched && projectFormControl.description.errors?.maxlength">
+          Project description should be in max 200 characters...
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <ng-template #elseTemplate>
+        <p style="padding: 6px 0px;text-align: left;">Are you sure to delete this item?</p>
+      </ng-template>
+    </div>
+
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="closeDialog()">Cancel</button>
+    <button type="submit" mat-flat-button color="primary" (click)="doAction()">
+      {{ action }} Project
+    </button>
+  </mat-dialog-actions>
+
+</form>

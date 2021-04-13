@@ -1,0 +1,51 @@
+<h1 mat-dialog-title>{{action}} Contact</h1>
+
+<form [formGroup]="contactForm">
+
+  <mat-dialog-content>
+    <div *ngIf="action != 'Delete'; else elseTemplate">
+
+      <div fxLayout="row" fxLayoutAlign="space-between stretch">
+        <div fxFlex="40">
+          <mat-form-field class="example-full-width">
+            <mat-label>Type</mat-label>
+            <mat-select [(ngModel)]="local_data.type" formControlName="type">
+              <div *ngFor="let item of contactTypes">
+                <mat-option value="{{ item.type }}">{{ item.type }}</mat-option>
+              </div>
+            </mat-select>
+            <mat-error
+              *ngIf="(contactFormControl.type.touched || submitted) && contactFormControl.type.errors?.required">
+              Type is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field class="example-full-width">
+            <mat-label>Link</mat-label>
+            <input type="url" matInput placeholder="https://example.com/username" [(ngModel)]="local_data.link"
+              formControlName="link">
+            <mat-error
+              *ngIf="(contactFormControl.link.touched || submitted) && contactFormControl.link.errors?.required">
+              Contact link is required
+            </mat-error>
+            <mat-error *ngIf="contactFormControl.link.touched && contactFormControl.link.errors?.pattern">
+              Enter a valid contact link
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div>
+      <ng-template #elseTemplate>
+        <p style="padding: 6px 0px;text-align: left;">Are you sure to delete this item?</p>
+      </ng-template>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="closeDialog()">Cancel</button>
+    <button type="submit" mat-flat-button color="primary" (click)="doAction()">{{action}} Contact</button>
+  </mat-dialog-actions>
+</form>

@@ -1,22 +1,19 @@
 <app-navbar></app-navbar>
-<div class="profile-url">
-   <div class="link">
-    Profile Link:<button mat-button>resumly.com/shinushaju</button>
-   </div> 
+<div class="profile-url" *ngFor="let item of userInfo">
+    <div class="link">
+        <a href="{{item.username}}" target="_blank">Preview Public Profile</a>
+        <mat-icon [cdkCopyToClipboard]="value" (click)="openSnackBar()">content_copy</mat-icon>
+    </div>
 </div>
 <div class="container">
-        <div class="content">
-            <div class="categories">
-                <app-about></app-about>
-                <app-project></app-project>
-                <app-experience></app-experience>
-                <app-education></app-education>
-                <app-skill></app-skill>
-                <app-award></app-award>
-                <app-contact></app-contact>
-                <app-footer></app-footer>
-            </div>
-                
-
+    <div class="content" [ngClass.lt-md]="'content-sm'">
+        <div class="categories">
+            <app-about></app-about>
+            <app-project></app-project>
+            <app-experience></app-experience>
+            <app-education></app-education>
+            <app-contact></app-contact>
+            <app-footer></app-footer>
         </div>
+    </div>
 </div>

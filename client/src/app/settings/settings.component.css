@@ -1,0 +1,31 @@
+mat-card {
+  box-shadow: none !important;
+  border: 1px solid #e8eaf6;
+  margin: 16px 0;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+button {
+  font-weight: 700;
+}
+
+a:link {
+  color: #3d5afe;
+  font-weight: bold;
+}
+
+/* visited link */
+a:visited {
+  color: #3d5afe;
+}
+
+/* mouse over link */
+a:hover {
+  color: #3d5afe;
+}
+
+/* selected link */
+a:active {
+  color: #3d5afe;
+}

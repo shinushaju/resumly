@@ -1,11 +1,22 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ExperienceService } from '../../../services/experience.service';
+import { ExperienceDialogComponent } from './dialog/experience-dialog.component';
+
+export interface ExperienceInfo {
+  _id: string;
+  title: string;
+  type: string;
+  companyName: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+}
+
+const experienceData: ExperienceInfo[] = [];
 
 @Component({
   selector: 'app-experience',
@@ -13,79 +24,98 @@ import { ExperienceService } from '../../../services/experience.service';
   styleUrls: ['./experience.component.css'],
 })
 export class ExperienceComponent implements OnInit {
-  experienceInfo = [
-    {
-      title: '',
-      type: '',
-      companyName: '',
-      location: '',
-      startDate: '',
-      endDate: '',
-      description: '',
-    },
-  ];
+  experienceDataSource = experienceData;
+
   constructor(
     public dialog: MatDialog,
+    private _snackBar: MatSnackBar,
     private experienceService: ExperienceService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.experienceService.getExperienceList().subscribe((data) => {
-      this.experienceInfo = JSON.parse(JSON.stringify(data));
+    this.experienceService.getInfo().subscribe((data) => {
+      this.experienceDataSource = JSON.parse(JSON.stringify(data));
     });
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(AddExperienceComponent, {
-      width: '400px',
+  openDialog(action: any, objData: any) {
+    objData.action = action;
+    const dialogRef = this.dialog.open(ExperienceDialogComponent, {
+      width: '300px',
+      data: objData,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result.experience);
-      this.experienceInfo = JSON.parse(JSON.stringify(result.experience));
-      this.experienceService.createExperience(this.experienceInfo);
+      if (result.event == 'Add') {
+        this.saveData(result.data);
+      } else if (result.event == 'Update') {
+        this.updateData(result.data, result.data._id);
+      } else if (result.event == 'Delete') {
+        this.deleteData(result.data._id);
+      }
+    });
+  }
+
+  saveData(payload: any) {
+    // save data to db
+    this.experienceDataSource = JSON.parse(JSON.stringify(payload));
+    this.experienceService.saveInfo(this.experienceDataSource);
+    // reloads component
+    setTimeout(() => {
+      this._snackBar.open('Experience Added Successfully!', '', {
+        duration: 3500,
+        panelClass: ['custom-snackbar'],
+      });
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
       this.router.onSameUrlNavigation = 'reload';
       this.router.navigate(['./myprofile']);
-    });
-  }
-}
-
-@Component({
-  selector: 'app-add-experience',
-  templateUrl: './add-experience.html',
-  styleUrls: ['./experience.component.css'],
-})
-export class AddExperienceComponent {
-  title: string = '';
-  type: string = '';
-  companyName: string = '';
-  location: string = '';
-  startDate: string = '';
-  endDate: string = '';
-  description: string = '';
-
-  constructor(
-    public dialogRef: MatDialogRef<AddExperienceComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public experience: any
-  ) {}
-
-  closeDialog() {
-    this.dialogRef.close({
-      experience: {
-        title: this.title,
-        type: this.type,
-        companyName: this.companyName,
-        location: this.location,
-        startDate: this.startDate,
-        endDate: this.endDate,
-        description: this.description,
-      },
-    });
+    }, 1500);
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  updateData(payload: any, id: string) {
+    const newData = payload;
+    delete newData['action'];
+    this.experienceDataSource = this.experienceDataSource.filter(
+      (value, key) => {
+        if (value._id == id) {
+          // send updated data to db
+          this.experienceService.updateInfo(id, newData);
+        }
+        return true;
+      }
+    );
+    // reloads component
+    setTimeout(() => {
+      this._snackBar.open('Experience Updated Successfully!', '', {
+        duration: 3500,
+        panelClass: ['custom-snackbar'],
+      });
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      this.router.onSameUrlNavigation = 'reload';
+      this.router.navigate(['./myprofile']);
+    }, 1500);
+  }
+
+  deleteData(id: string) {
+    this.experienceDataSource = this.experienceDataSource.filter(
+      (value, key) => {
+        if (value._id == id) {
+          // delete data from db
+          this.experienceService.deleteInfo(id);
+        }
+        return true;
+      }
+    );
+    // reloads component
+    setTimeout(() => {
+      this._snackBar.open('Experience Deleted Successfully!', '', {
+        duration: 3500,
+        panelClass: ['custom-snackbar'],
+      });
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      this.router.onSameUrlNavigation = 'reload';
+      this.router.navigate(['./myprofile']);
+    }, 1500);
   }
 }

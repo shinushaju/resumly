@@ -3,7 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { WebapiRequestInterceptor } from './services/webapi-request-interceptor.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -20,24 +21,29 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SignupComponent } from './signup/signup.component';
 import { SigninComponent } from './signin/signin.component';
 import { MatCardModule } from '@angular/material/card';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { OnboardingComponent } from './onboarding/onboarding.component';
 import { ManageprofileComponent } from './manageprofile/manageprofile.component';
-import { AboutComponent, EditAboutComponent } from './manageprofile/categories/about/about.component';
-import { ProjectComponent,  AddProjectComponent } from './manageprofile/categories/project/project.component';
-import { ExperienceComponent, AddExperienceComponent } from './manageprofile/categories/experience/experience.component';
-import { EducationComponent, AddEducationComponent } from './manageprofile/categories/education/education.component';
-import { AwardComponent } from './manageprofile/categories/award/award.component';
-import { SkillComponent } from './manageprofile/categories/skill/skill.component';
+import { AboutComponent } from './manageprofile/categories/about/about.component';
+import { ProjectComponent } from './manageprofile/categories/project/project.component';
+import { ExperienceComponent } from './manageprofile/categories/experience/experience.component';
 import { ContactComponent } from './manageprofile/categories/contact/contact.component';
+import { ContactDialogComponent } from './manageprofile/categories/contact/dialog/contact-dialog.component';
 import { FooterComponent } from './footer/footer.component';
-import { FilePondModule, registerPlugin } from 'ngx-filepond';
-// import and register filepond file type validation plugin
-//import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-//registerPlugin(FilePondPluginFileValidateType);
-
+import { MatListModule } from '@angular/material/list';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { EducationComponent } from './manageprofile/categories/education/education.component';
+import { EducationDialogComponent } from './manageprofile/categories/education/dialog/education-dialog.component';
+import { AboutDialogComponent } from './manageprofile/categories/about/dialog/about-dialog.component';
+import { ProjectDialogComponent } from './manageprofile/categories/project/dialog/project-dialog.component';
+import { ExperienceDialogComponent } from './manageprofile/categories/experience/dialog/experience-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { PreviewProfileComponent } from './preview-profile/preview-profile.component';
+import { SettingsComponent } from './settings/settings.component';
+import { SettingsDialogComponent } from './settings/dialog/settings-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,15 +57,17 @@ import { FilePondModule, registerPlugin } from 'ngx-filepond';
     AboutComponent,
     ProjectComponent,
     ExperienceComponent,
-    EducationComponent,
-    AwardComponent,
-    SkillComponent,
     ContactComponent,
+    ContactDialogComponent,
     FooterComponent,
-    EditAboutComponent,
-    AddProjectComponent,
-    AddExperienceComponent,
-    AddEducationComponent
+    ExperienceDialogComponent,
+    EducationComponent,
+    EducationDialogComponent,
+    AboutDialogComponent,
+    ProjectDialogComponent,
+    PreviewProfileComponent,
+    SettingsComponent,
+    SettingsDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -84,9 +92,18 @@ import { FilePondModule, registerPlugin } from 'ngx-filepond';
     MatChipsModule,
     MatDialogModule,
     MatSelectModule,
-    FilePondModule
+    MatListModule,
+    ClipboardModule,
+    ImageCropperModule,
+    MatSnackBarModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: WebapiRequestInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

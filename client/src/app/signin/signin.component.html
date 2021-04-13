@@ -1,33 +1,45 @@
 <div class="container">
-    <div class="box">
-        <img class="resumly-icon" src="../../assets/images/resumly-icon.svg" alt="resumly">
-        <h1 class="mat-display-1" style="margin-bottom: 5px;">Welcome back<span><img src="../../assets/images/hand-icon.svg" class="hand-icon"></span></h1>
-        <h2 class="mat-subheading-4">Sign in to your resumly account</h2>
-        <p>Don't have an account? <span class="route-link" routerLink="/signup">Sign up</span></p>
+    <div class="box" [ngClass.lt-md]="'box-lt-md'">
+        <div class="form" [ngClass.lt-md]="'form-sm'">
+            <img class="resumly-icon" routerLink="/" src="../../assets/images/resumly-icon.svg" alt="resumly">
+            <h1 class="mat-display-1" style="margin-bottom: 5px;letter-spacing:-1px"><b>Welcome back</b><span><img
+                        src="../../assets/images/hand-icon.svg" class="hand-icon"></span></h1>
+            <h2 class="mat-subheading-4">Sign in to your resumly account</h2>
+            <p>Don't have an account? <span class="route-link" routerLink="/signup">Sign up</span></p>
+            <mat-error *ngIf="error">{{ error }}</mat-error>
+            <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+                <div class="signup-form">
+                    <mat-form-field appearance="outline" class="form-block">
+                        <mat-label>Email address</mat-label>
+                        <input matInput placeholder="Enter email address" formControlName="email">
+                        <mat-error
+                            *ngIf="(signinFormControl.email.touched || submitted) && signinFormControl.email.errors?.required">
+                            Email is required</mat-error>
+                        <mat-error *ngIf="signinFormControl.email.touched && signinFormControl.email.errors?.email">
+                            Enter a valid email address</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="form-block">
+                        <mat-label>Password</mat-label>
+                        <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" class="form-control"
+                            formControlName="password">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-error
+                            *ngIf="(signinFormControl.password.touched || submitted) && signinFormControl.password.errors?.required">
+                            Password is required</mat-error>
+                        <mat-error
+                            *ngIf="signinFormControl.password.touched && signinFormControl.password.errors?.invalidPassword">
+                            Password must have min. 8 characters and at least 1 uppercase letter, 1 lowercase letter and
+                            a digit.
+                        </mat-error>
+                    </mat-form-field>
 
-        <div class="signup-form">
-            <div>
-                <mat-form-field appearance="outline" class="form-block">
-                    <mat-label>Email address</mat-label>
-                    <input matInput placeholder="Placeholder">
-                    <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                    <mat-hint>Hint</mat-hint>-->
-                  </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field appearance="outline" class="form-block">
-                    <mat-label>Password</mat-label>
-                    <input matInput placeholder="Placeholder">
-                    <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                    <mat-hint>Hint</mat-hint>-->
-                  </mat-form-field>
-            </div>
+                    <button mat-flat-button color="primary" class="primary-button auth-button"
+                        [disabled]="!signinForm.valid">Sign in</button>
+                </div>
+            </form>
         </div>
-
-        <!--<mat-checkbox class="checkbox-margin" [(ngModel)]="checked" color="primary">
-            <span class="checkbox-label">I agree to all the <span class="route-link">Terms & Conditions</span> and the <span class="route-link">Privacy Policy</span>.</span>
-        </mat-checkbox>-->
-
-        <button mat-flat-button color="primary" class="primary-button" routerLink="">Sign in</button><br>      
-    </div> 
+    </div>
 </div>

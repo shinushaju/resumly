@@ -1,0 +1,77 @@
+<h1 mat-dialog-title>{{action}} Education</h1>
+
+<form [formGroup]="educationForm">
+
+    <mat-dialog-content>
+        <div *ngIf="action != 'Delete'; else elseTemplate">
+            <mat-form-field class="full-width">
+                <mat-label>School</mat-label>
+                <input matInput placeholder="School" [(ngModel)]="local_data.school" formControlName="school">
+                <mat-error
+                    *ngIf="(educationFormControl.school.touched || submitted) && educationFormControl.school.errors?.required">
+                    School is required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <mat-label>Degree</mat-label>
+                <input matInput placeholder="Degree" [(ngModel)]="local_data.degree" formControlName="degree">
+                <mat-error
+                    *ngIf="(educationFormControl.degree.touched || submitted) && educationFormControl.degree.errors?.required">
+                    Degree is required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <mat-label>Field of study</mat-label>
+                <input matInput placeholder="Degree" [(ngModel)]="local_data.fieldOfStudy"
+                    formControlName="fieldOfStudy">
+                <mat-error
+                    *ngIf="(educationFormControl.fieldOfStudy.touched || submitted) && educationFormControl.fieldOfStudy.errors?.required">
+                    Field of study is required
+                </mat-error>
+            </mat-form-field>
+
+            <div fxLayout="row" fxLayoutAlign="space-between none">
+                <div fxFlex="50">
+                    <mat-form-field class="full-width">
+                        <mat-label>Start date</mat-label>
+                        <input matInput placeholder="Ex. August 2020" [(ngModel)]="local_data.startDate"
+                            formControlName="startDate">
+                        <mat-error
+                            *ngIf="(educationFormControl.startDate.touched || submitted) && educationFormControl.startDate.errors?.required">
+                            Start date is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="50">
+                    <mat-form-field class="full-width">
+                        <mat-label>End date</mat-label>
+                        <input matInput placeholder="Ex. Present" [(ngModel)]="local_data.endDate"
+                            formControlName="endDate">
+                        <mat-error
+                            *ngIf="(educationFormControl.endDate.touched || submitted) && educationFormControl.endDate.errors?.required">
+                            End date is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <mat-form-field class="full-width">
+                <mat-label>Grade</mat-label>
+                <input matInput placeholder="Grade" [(ngModel)]="local_data.grade" formControlName="grade">
+            </mat-form-field>
+        </div>
+        <div>
+            <ng-template #elseTemplate>
+                <p style="padding: 6px 0px;text-align: left;">Are you sure to delete this item?</p>
+            </ng-template>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button (click)="closeDialog()">Cancel</button>
+        <button type="submit" mat-flat-button color="primary" (click)="doAction()">{{action}} Education</button>
+    </mat-dialog-actions>
+
+</form>

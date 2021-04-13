@@ -1,0 +1,33 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <div class="content" [ngClass.lt-md]="'content-sm'">
+        <div class="section" class="settings-section" [ngClass.lt-md]="'settings-section-sm'">
+            <h2>Account Settings</h2>
+            <br>
+            <mat-card>
+                <h2><b>Email address</b></h2>
+                <div style="margin:8px 0">{{userEmail?.email}}</div>
+                <button mat-flat-button color="primary" style="margin:8px 0"
+                    (click)="openDialog('Change Email',userEmail)">Change Email</button>
+            </mat-card>
+            <mat-card>
+                <h2><b>Username</b></h2>
+                <p>Your unique profile URL is&ensp;<a href="{{userName?.username}}"
+                        target="_blank">http://resumly.herokuapp.com/{{userName?.username}}</a></p>
+                <button mat-flat-button color="primary" style="margin:8px 0"
+                    (click)="openDialog('Change Username',userName)">Change Username</button>
+            </mat-card>
+            <mat-card>
+                <h1><b>Deactivate Account</b></h1>
+                <p>This will hide your profile from the public. You can come back anytime and re-activate it.</p>
+                <button mat-flat-button color="primary" style="margin: 16px 0" disabled>Deactivate Account</button>
+            </mat-card>
+            <mat-card>
+                <h1><b>Delete Account</b></h1>
+                <p>By deleting your account, all your data gets deleted permanently. This action is irreversible.</p>
+                <button mat-flat-button color="warn" style="margin: 16px 0"
+                    (click)="openDialog('Delete Account', userEmail)">Delete Account</button>
+            </mat-card>
+        </div>
+    </div>
+</div>

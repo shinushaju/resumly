@@ -1,44 +1,60 @@
 .container {
-    padding: 100px 0px;
-    margin: 24px 0;
+  height: 100%;
+  padding-bottom: 48px;
 }
-.container .box {
-    margin: 0;
-    text-align: left;
-    position: fixed;
-    margin-top: 72px;
-    left: 50%;
-    transform: translate(-50%, -30%);
+
+.box {
+  text-align: left;
+  width: 50%;
+  margin: auto;
+}
+
+.box-lt-md {
+  width: 90%;
 }
 
 .resumly-icon {
-    height: 36px;
-    width: auto;
-    margin: 14px 0;
+  height: 36px;
+  width: auto;
+  margin: 14px 0;
 }
 
-.signup-form {
-    padding-top: 24px;
+.form {
+  padding-top: 36px;
+  width: 60%;
+  margin: auto;
+}
+
+.form-sm {
+  width: 100%;
+  margin: auto;
 }
 
 .form-block {
-    width: 100%;
+  width: 100%;
 }
 
-.route-link{
-    color: #3F53B5;
-    cursor: pointer;
+.route-link {
+  color: #3f53b5;
+  cursor: pointer;
+}
+
+.router-link:focus {
+  outline: none;
+  border: none;
 }
 
 .checkbox-margin {
-    margin: 0 5px;
+  margin: 4px 0px;
 }
 
 .checkbox-label {
-    padding-left: 16px;
+  padding-left: 4px;
+  white-space: normal;
+  font-size: smaller;
 }
 
-button {
-    width: 100%;
-    margin-top: 36px;
+.auth-button {
+  width: 100%;
+  margin-top: 36px;
 }

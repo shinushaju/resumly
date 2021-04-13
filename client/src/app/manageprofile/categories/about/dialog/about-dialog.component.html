@@ -1,0 +1,102 @@
+<h1 mat-dialog-title>{{ action }} Info</h1>
+
+<form [formGroup]="aboutForm">
+
+    <mat-dialog-content>
+
+        <div style="padding: 12px 0">
+            <div class="avatar-upload">
+                <div class="avatar-edit">
+                    <input type="file" (change)="fileChangeEvent($event)" id="imageUpload" accept=".png, .jpg, .jpeg" />
+                    <label for="imageUpload">
+                        <mat-icon class="edit-icon">edit</mat-icon>
+                    </label>
+                </div>
+                <div class="avatar-delete">
+                    <div>
+                        <mat-icon (click)="removeImage()" color="warn" class="delete-icon">delete</mat-icon>
+                    </div>
+                </div>
+                <div class="avatar-preview">
+                    <img [src]="croppedImage" onerror="this.src='../../../../assets/images/bg.svg'"
+                        class="display-image" />
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 5%">
+            <image-cropper *ngIf="crop" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                [aspectRatio]="1 / 1" [resizeToWidth]="0" format="png" (imageCropped)="imageCropped($event)">
+            </image-cropper>
+            <div class="crop-button" *ngIf="show">
+                <div class="button-align-center">
+                    <button mat-flat-button color="primary" *ngIf="show" (click)="cropImage()">
+                        Crop Image
+                        <mat-icon aria-hidden="false" aria-label="crop icon">crop</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Display Name</mat-label>
+            <input #fullName matInput placeholder="Display name" [(ngModel)]="local_data.fullName"
+                formControlName="fullName" />
+            <mat-hint align="end">{{fullName.value.length}} / 49</mat-hint>
+            <mat-error
+                *ngIf="(aboutFormControl.fullName.touched || submitted) && aboutFormControl.fullName.errors?.required">
+                Display name is required
+            </mat-error>
+            <mat-error *ngIf="aboutFormControl.fullName.touched && aboutFormControl.fullName.errors?.maxlength">
+                Display name should be less than 50 characters
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Designation</mat-label>
+            <input #designation matInput placeholder="Ex. Software Engineer" [(ngModel)]="local_data.designation"
+                formControlName="designation" />
+            <mat-hint align="end">{{designation.value.length}} / 49</mat-hint>
+            <mat-error
+                *ngIf="(aboutFormControl.designation.touched || submitted) && aboutFormControl.designation.errors?.required">
+                Designation name is required
+            </mat-error>
+            <mat-error *ngIf="aboutFormControl.designation.touched && aboutFormControl.designation.errors?.maxlength">
+                Designation should be less than 50 characters
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Location</mat-label>
+            <input #location matInput placeholder="Ex. Seattle, USA" [(ngModel)]="local_data.location"
+                formControlName="location" />
+            <mat-hint align="end">{{location.value.length}} / 49</mat-hint>
+            <mat-error
+                *ngIf="(aboutFormControl.location.touched || submitted) && aboutFormControl.location.errors?.required">
+                Location is required
+            </mat-error>
+            <mat-error *ngIf="aboutFormControl.location.touched && aboutFormControl.location.errors?.maxlength">
+                Location should be less than 50 characters
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Bio</mat-label>
+            <textarea #bio matInput rows="12" placeholder="Write about yourself in max 750 characters..."
+                [(ngModel)]="local_data.bio" formControlName="bio"></textarea>
+            <mat-hint align="end">{{bio.value.length}} / 749</mat-hint>
+            <mat-error *ngIf="(aboutFormControl.bio.touched || submitted) && aboutFormControl.bio.errors?.required">
+                Bio is required
+            </mat-error>
+            <mat-error *ngIf="aboutFormControl.bio.touched && aboutFormControl.bio.errors?.maxlength">
+                Bio should be less than 750 characters
+            </mat-error>
+        </mat-form-field>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button (click)="closeDialog()">Cancel</button>
+        <button mat-flat-button color="primary" type="submit" (click)="doAction()"> {{ action }} Info </button>
+    </mat-dialog-actions>
+
+</form>

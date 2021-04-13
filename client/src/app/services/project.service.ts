@@ -1,38 +1,34 @@
 import { Injectable } from '@angular/core';
 import { WebapiRequestService } from './webapi-request.service';
 
-export interface Tags {
-  tagName: string;
-}
-
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectService {
-  tags: Tags[] = [];
-
   projectInfo = {
+    projectCover: '',
+    imageType: '',
+    projectDate: '',
     projectName: '',
     url: '',
     description: '',
-    projectTags: this.tags,
   };
 
   constructor(private webApiService: WebapiRequestService) {}
 
-  getProjectList() {
-    return this.webApiService.get('projects');
+  getInfo() {
+    return this.webApiService.get('user/projects');
   }
 
-  createProject(projectInfo: any) {
-    return this.webApiService.post('projects', { projectInfo });
+  saveInfo(projectInfo: any) {
+    return this.webApiService.post('user/projects', { projectInfo });
   }
 
-  updateProject(id: string, projectInfo: any) {
-    return this.webApiService.patch(`projects/${id}`, { projectInfo });
+  updateInfo(id: string, payload: any) {
+    return this.webApiService.patch(`user/projects/${id}`, { payload });
   }
 
-  deleteProject(id: string) {
-    return this.webApiService.delete(`./projects/${id}`);
+  deleteInfo(id: string) {
+    return this.webApiService.delete(`user/projects/${id}`);
   }
 }

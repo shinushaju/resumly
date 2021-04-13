@@ -1,32 +1,60 @@
 <div class="section">
 
-    <div fxLayout="row" fxLayoutAlign="space-between stretch">
+    <div fxLayout="row" fxLayoutAlign="space-between stretch" *ngIf="educationDataSource.length != 0"
+        style="padding-bottom: 18px">
         <div class="child-1">
             <strong class="mat-subheading-2 section-title">Education</strong>
         </div>
         <div class="child-2">
-            <div class="edit-button"><button mat-flat-button color="primary" (click)="openDialog()">Add
+            <div class="edit-button"><button mat-flat-button color="primary" (click)="openDialog('Add',{})">Add
                     Education</button></div>
         </div>
     </div>
 
-    <div class="section-content">
-        <div fxLayout="column" fxLayout.md="row" fxLayoutGap="20px" class="section-content-item">
-            <div *ngFor="let info of educationInfo" fxLayout.lt-md="column" fxLayout.md="column" fxLayout="row"
-                fxFlex.md="50" fxLayoutAligmnet="space-between none" fxLayoutGap="20px">
-                <div fxFlex.lt-md="100" fxFlex="50">
-                    <div class="duration" *ngIf="info.startDate">
-                        {{info.startDate}} - {{info.endDate}}
+
+    <div *ngIf="educationDataSource.length === 0">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly stretch" class="empty-state"
+            style="background-color: #ff7043;">
+            <div fxFlex="70" fxFlexOrder="1">
+                <h1 class="mat-display-1"
+                    style="padding:0 0 8px 0;margin: 0 0 8px 0;font-weight: bold;letter-spacing: -2px;">Add Your
+                    Education</h1>
+                <h4>
+                    The education summary is the section is where you list your degrees and relevant
+                    academic accomplishments. Educational experience is a very important asset to job seekers—especially
+                    those who are just
+                    making their first foray into the job market. </h4>
+                <br>
+                <button mat-flat-button class="custom-lg-btn" (click)="openDialog('Add', {})">Add Education</button>
+            </div>
+            <div fxFlex fxFlexOrder="2" style="display: flex;justify-content: center;">
+                <img src="../../../../assets/images/education.svg"
+                    style="display: inline-block;height: 200px; width: auto;">
+            </div>
+        </div>
+    </div>
+
+    <div class="section-content" *ngFor="let item of educationDataSource">
+        <div fxLayout="column" fxLayout.md="row">
+            <div fxLayout.lt-md="column" fxLayout.md="column" fxLayout="row" fxFlex.md="50"
+                fxLayoutAligmnet="space-between none" class="data-container" [ngClass.lt-md]="'data-container-sm'">
+                <div fxFlex.lt-md="100" fxFlex="40">
+                    <div class="duration mat-subheading-2">
+                        {{item.startDate}} - {{item.endDate}}
                     </div>
                 </div>
-                <div fxFlex.lt-md="100" fxFlex="50">
+                <div fxFlex.lt-md="100" fxFlex="60">
                     <div class="experience-info">
-                        <h3 class="university" *ngIf="info.school">{{info.school}}</h3>
-                        <h4 class="degree" *ngIf="info.fieldOfStudy">{{info.fieldOfStudy}}</h4>
-                        <h4 class="location" *ngIf="info.degree">{{info.degree}}</h4>
+                        <div class="university  mat-subheading-2" *ngIf="item.school">{{item.school}}</div>
+                        <div class="degree" *ngIf="item.fieldOfStudy">{{item.fieldOfStudy}}</div>
+                        <div class="location" *ngIf="item.degree">{{item.degree}}</div>
+                        <div class="grade" *ngIf="item.grade">Grade: {{item.grade}}</div>
+                        <br>
                         <div class="action-buttons">
-                            <button mat-stroked-button color="primary" style="margin-right: 16px;">Edit</button>
-                            <button mat-button color="warn">Delete</button>
+                            <span class="action-button-item" style="color: black"
+                                (click)="openDialog('Update',item)">Edit</span>
+                            <span class="action-button-item" style="color: red"
+                                (click)="openDialog('Delete',item)">Delete</span>
                         </div>
                     </div>
                 </div>

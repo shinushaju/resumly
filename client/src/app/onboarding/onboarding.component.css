@@ -1,14 +1,16 @@
 .container {
-  padding: 100px 0px;
-  margin: 24px 0;
+  height: 100%;
+  padding-bottom: 48px;
 }
-.container .box {
-  margin: 0;
+
+.box {
   text-align: left;
-  position: fixed;
-  margin-top: 72px;
-  left: 50%;
-  transform: translate(-50%, -30%);
+  width: 50%;
+  margin: auto;
+}
+
+.box-lt-md {
+  width: 90%;
 }
 
 .resumly-icon {
@@ -17,17 +19,27 @@
   margin: 14px 0;
 }
 
+.form {
+  padding-top: 36px;
+  width: 60%;
+  margin: auto;
+}
+
+.form-sm {
+  width: 100%;
+  margin: auto;
+}
+
 .onboarding-form {
   padding-top: 24px;
 }
 
-.form-block {
-  width: 100%;
+mat-horizontal-stepper {
+  background-color: transparent;
 }
 
-.route-link {
-  color: #3f53b5;
-  cursor: pointer;
+.form-block {
+  width: 100%;
 }
 
 button {

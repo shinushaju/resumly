@@ -1,80 +1,140 @@
 <div class="container">
-    <div class="box">
+  <div class="box" [ngClass.lt-md]="'box-lt-md'">
+    <div class="form" [ngClass.lt-md]="'form-sm'">
+      <div style="padding-left:24px">
         <img class="resumly-icon" src="../../assets/images/resumly-icon.svg" alt="resumly">
-        <h1 class="mat-display-1" style="margin-bottom: 5px;">Welcome to resumly<span><img src="../../assets/images/hand-icon.svg" class="hand-icon"></span></h1>
-        <h4 class="mat-subheading-4">Just fill out few details and you'll be good to go.<br>You can always change this later.</h4>
+        <h1 class="mat-display-1" style="margin-bottom: 5px;letter-spacing:-1"><b>Welcome to resumly</b><span><img
+              src="../../assets/images/hand-icon.svg" class="hand-icon"></span></h1>
+        <h4 class="mat-subheading-4">Just fill out few details and you'll be good to go. You can always change this
+          later.</h4>
+      </div>
+      <div class="onboarding-form">
 
-        <div class="onboarding-form-form">
+        <mat-horizontal-stepper labelPosition="bottom" #stepper>
 
-            <mat-horizontal-stepper labelPosition="bottom" #stepper>
+          <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
+              <mat-form-field class="form-block">
+                <mat-label>Username</mat-label>
+                <input #username matInput placeholder="Your unique username" formControlName="firstCtrl">
+                <mat-hint align="end">{{username.value.length}} / 15</mat-hint>
+                <mat-error
+                  *ngIf="(firstFormControl.firstCtrl.touched || submitted) && firstFormControl.firstCtrl.errors?.required">
+                  Username is required
+                </mat-error>
+                <mat-error
+                  *ngIf="firstFormControl.firstCtrl.touched && firstFormControl.firstCtrl.errors?.userNameNotAvailable">
+                  Username taken!
+                </mat-error>
+                <mat-error *ngIf="firstFormControl.firstCtrl.touched && firstFormControl.firstCtrl.errors?.minlength">
+                  Username must be at least 3 characters
+                </mat-error>
+                <mat-error *ngIf="firstFormControl.firstCtrl.touched && firstFormControl.firstCtrl.errors?.maxlength">
+                  Username must be less than 16 characters
+                </mat-error>
+                <mat-error *ngIf="firstFormControl.firstCtrl.touched && firstFormControl.firstCtrl.errors?.pattern">
+                  Use only lower-case letters.
+                </mat-error>
+              </mat-form-field>
+              <div>
+                <button mat-flat-button color="primary" matStepperNext [disabled]="!firstFormGroup.valid">Next</button>
+              </div>
+            </form>
+          </mat-step>
 
-                <mat-step [stepControl]="firstFormGroup">
-                  <form [formGroup]="firstFormGroup">
-                    <mat-form-field  appearance="fill"  class="form-block">
-                      <mat-label>Username</mat-label>
-                      <input matInput placeholder="Your unique username" formControlName="firstCtrl" required>
-                    </mat-form-field>
-                    <div>
-                      <button mat-flat-button color="primary" matStepperNext >Next</button>
-                    </div>
-                  </form>
-                </mat-step>
+          <mat-step [stepControl]="secondFormGroup" optional>
+            <form [formGroup]="secondFormGroup">
+              <mat-form-field class="form-block">
+                <mat-label>Display name</mat-label>
+                <input #fullName matInput formControlName="secondCtrl" placeholder="Your full name">
+                <mat-hint align="end">{{fullName.value.length}} / 49</mat-hint>
+                <mat-error
+                  *ngIf="(secondFormControl.secondCtrl.touched || submitted) && secondFormControl.secondCtrl.errors?.required">
+                  Display name is required
+                </mat-error>
+                <mat-error
+                  *ngIf="secondFormControl.secondCtrl.touched && secondFormControl.secondCtrl.errors?.maxlength">
+                  Display name should be less than 50 characters
+                </mat-error>
+              </mat-form-field>
+              <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="40%" fxLayoutGap.lt-md="20%">
+                <button mat-flat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="primary" matStepperNext [disabled]="!secondFormGroup.valid">Next</button>
+              </div>
+            </form>
+          </mat-step>
 
-                <mat-step [stepControl]="secondFormGroup" optional>
-                  <form [formGroup]="secondFormGroup">
-                    <mat-form-field  appearance="fill"  class="form-block">
-                      <mat-label>Display name</mat-label>
-                      <input matInput formControlName="secondCtrl" placeholder="Your full name"
-                             required>
-                    </mat-form-field>
-                    <div>
-                      <button mat-stroked-button color="primary" matStepperPrevious>Back</button>
-                      <button mat-flat-button color="primary" matStepperNext>Next</button>
-                    </div>
-                  </form>
-                </mat-step>
+          <mat-step [stepControl]="thirdFormGroup" optional>
+            <form [formGroup]="thirdFormGroup">
+              <mat-form-field class="form-block">
+                <mat-label>Desgination</mat-label>
+                <input #designation matInput formControlName="thirdCtrl" placeholder="Ex. Software Engineer">
+                <mat-hint align="end">{{designation.value.length}} / 49</mat-hint>
+                <mat-error
+                  *ngIf="(thirdFormControl.thirdCtrl.touched || submitted) && thirdFormControl.thirdCtrl.errors?.required">
+                  Designation name is required
+                </mat-error>
+                <mat-error *ngIf="thirdFormControl.thirdCtrl.touched && thirdFormControl.thirdCtrl.errors?.maxlength">
+                  Designation should be less than 50 characters
+                </mat-error>
+              </mat-form-field>
+              <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="40%" fxLayoutGap.lt-md="20%">
+                <button mat-flat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="primary" matStepperNext [disabled]="!thirdFormGroup.valid">Next</button>
+              </div>
+            </form>
+          </mat-step>
 
-                <mat-step [stepControl]="thirdFormGroup" optional>
-                    <form [formGroup]="thirdFormGroup">
-                      <mat-form-field  appearance="fill"  class="form-block">
-                        <mat-label>Desgination</mat-label>
-                        <input matInput formControlName="thirdCtrl" placeholder="Ex. Software Engineer" required>
-                      </mat-form-field>
-                      <div>
-                        <button mat-stroked-button color="primary" matStepperPrevious>Back</button>
-                        <button mat-flat-button color="primary" matStepperNext>Next</button>
-                      </div>
-                    </form>
-                  </mat-step>
+          <mat-step [stepControl]="fourthFormGroup" optional>
+            <form [formGroup]="fourthFormGroup">
+              <mat-form-field class="form-block">
+                <mat-label>Current location</mat-label>
+                <input #location matInput formControlName="fourthCtrl" placeholder="Ex. Bengaluru, India">
+                <mat-hint align="end">{{location.value.length}} / 49</mat-hint>
+                <mat-error
+                  *ngIf="(fourthFormControl.fourthCtrl.touched || submitted) && fourthFormControl.fourthCtrl.errors?.required">
+                  Location is required
+                </mat-error>
+                <mat-error
+                  *ngIf="fourthFormControl.fourthCtrl.touched && fourthFormControl.fourthCtrl.errors?.maxlength">
+                  Location should be less than 50 characters
+                </mat-error>
+              </mat-form-field>
+              <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="40%" fxLayoutGap.lt-md="20%">
+                <button mat-flat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="primary" matStepperNext [disabled]="!fourthFormGroup.valid">Next</button>
+              </div>
+            </form>
+          </mat-step>
 
-                  <mat-step [stepControl]="fourthFormGroup" optional>
-                    <form [formGroup]="fourthFormGroup">
-                      <mat-form-field  appearance="fill"  class="form-block">
-                        <mat-label>Current location</mat-label>
-                        <input matInput formControlName="fourthCtrl" placeholder="Current location" required>
-                      </mat-form-field>
-                      <div>
-                        <button mat-stroked-button color="primary" matStepperPrevious>Back</button>
-                        <button mat-flat-button color="primary" matStepperNext>Next</button>
-                      </div>
-                    </form>
-                  </mat-step> 
+          <mat-step [stepControl]="fifthFormGroup" optional>
+            <form [formGroup]="fifthFormGroup">
+              <mat-form-field appearance="fill" class="form-block">
+                <mat-label>Bio</mat-label>
+                <textarea rows="12" #bio matInput formControlName="fifthCtrl"
+                  placeholder="Write about yourself in max. 750 characters..."></textarea>
+                <mat-hint align="start">You can always change this later.</mat-hint>
+                <mat-hint align="end">{{bio.value.length}} / 749</mat-hint>
+                <mat-error
+                  *ngIf="(fifthFormControl.fifthCtrl.touched || submitted) && fifthFormControl.fifthCtrl.errors?.required">
+                  Bio is required
+                </mat-error>
+                <mat-error *ngIf="fifthFormControl.fifthCtrl.touched && fifthFormControl.fifthCtrl.errors?.maxlength">
+                  Bio should be less than 750 characters
+                </mat-error>
 
-                  <mat-step [stepControl]="fifthFormGroup" optional>
-                    <form [formGroup]="fifthFormGroup">
-                      <mat-form-field  appearance="fill"  class="form-block">
-                        <mat-label>Bio</mat-label>
-                        <textarea matInput formControlName="fifthCtrl" optional></textarea>
-                      </mat-form-field>
-                      <div>
-                        <button mat-stroked-button color="primary" matStepperPrevious>Back</button>
-                        <button mat-flat-button color="primary" matStepperNext routerLink="/myprofile">Continue</button>
-                      </div>
-                    </form>
-                  </mat-step> 
-              </mat-horizontal-stepper>
+              </mat-form-field>
+              <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="40%" fxLayoutGap.lt-md="20%">
+                <button mat-flat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="primary" matStepperNext
+                  (click)="saveInfoAboutUser($event.target, 'Saving Info....', username.value, fullName.value, designation.value, location.value, bio.value)"
+                  [disabled]="!fifthFormGroup.valid">Continue</button>
+              </div>
+            </form>
+          </mat-step>
+        </mat-horizontal-stepper>
 
-        </div>
-
-    </div> 
+      </div>
+    </div>
+  </div>
 </div>

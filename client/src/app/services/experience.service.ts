@@ -17,19 +17,19 @@ export class ExperienceService {
 
   constructor(private webApiService: WebapiRequestService) {}
 
-  getExperienceList() {
-    return this.webApiService.get('experience');
+  getInfo() {
+    return this.webApiService.get('user/experience');
   }
 
-  createExperience(experienceInfo: any) {
-    return this.webApiService.post('experience', { experienceInfo });
+  saveInfo(experienceInfo: any) {
+    return this.webApiService.post('user/experience', { experienceInfo });
   }
 
-  updateExperience(id: string, experienceInfo: any) {
-    return this.webApiService.patch(`experience/${id}`, { experienceInfo });
+  updateInfo(id: string, payload: any) {
+    return this.webApiService.patch(`user/experience/${id}`, { payload });
   }
 
-  deleteExperience(id: string) {
-    return this.webApiService.delete(`./experience/${id}`);
+  deleteInfo(id: string) {
+    return this.webApiService.delete(`user/experience/${id}`);
   }
 }

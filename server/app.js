@@ -1,160 +1,185 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const  { mongoose } = require('./database/db');
+const dotenv = require('dotenv')
+dotenv.config();
+const jwt = require("jsonwebtoken");
 
-const { Education } = require('./database/models/education.model');
-const { Experience } = require('./database/models/experience.model');
-const { Project } = require('./database/models/project.model')
+const { mongoose } = require("./src/config/db");
+const { User } = require("./src/models/users.model");
 
-app.use(express.json());
-app.use(express.urlencoded({
-  extended: true
-}));
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
+const { signup, login } = require("./src/controllers/auth");
+const { deleteAccount, getUserEmail, getAllEmails, updateCredentials } = require('./src/controllers/user')
+const { getAboutInfo, saveAboutInfo, updateAboutInfo, getUsername, getAllUsernames, getAboutData } = require('./src/controllers/about');
+const { getProjectInfo, saveProjectInfo, updateProjectInfo, deleteProjectInfo, getProjectData } = require('./src/controllers/projects');
+const { getExperienceInfo, saveExperienceInfo, updateExperienceInfo, deleteExperienceInfo, getExperienceData } = require('./src/controllers/experience');
+const { getEducationInfo, saveEducationInfo, updateEducationInfo, deleteEducationInfo, getEducationData } = require('./src/controllers/education');
+const { getContactInfo, saveContactInfo, updateContactInfo, deleteContactInfo, getContactData } = require('./src/controllers/contact');
+
+app.use(
+  express.urlencoded({
+    limit: "50mb",
+    extended: true,
+    parameterLimit: 50000,
+    extended: true,
+  })
+);
+app.use(express.json({ limit: "50mb" }));
+
+// CORS HEADERS MIDDLEWARE
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, HEAD, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, x-access-token, x-refresh-token, _id"
+  );
+  res.header(
+    "Access-Control-Expose-Headers",
+    "x-access-token, x-refresh-token"
+  );
+  next();
+});
+
+
+
+// check whether the request has a valid JWT access token
+let authenticate = (req, res, next) => {
+  let token = req.header("x-access-token");
+  // verify the JWT
+  jwt.verify(token, User.getJWTSecret(), (err, decoded) => {
+    if (err) {
+      res.status(401).send(err);
+    } else {
+      req.user_id = decoded._id;
+      next();
+    }
   });
+};
 
+// Verify Refresh Token Middleware (which will be verifying the session)
+let verifySession = (req, res, next) => {
+  // grab the refresh token from the request header
+  let refreshToken = req.header("x-refresh-token");
+  // grab the _id from the request header
+  let _id = req.header("_id");
+
+  User.findByIdAndToken(_id, refreshToken)
+    .then((user) => {
+      if (!user) {
+        return Promise.reject({
+          error:
+            "User not found!",
+        });
+      }
+
+      req.user_id = user._id;
+      req.userObject = user;
+      console.log(req.userObject);
+      req.refreshToken = refreshToken;
+
+      let isSessionValid = false;
+
+      user.sessions.forEach((session) => {
+        if (session.token === refreshToken) {
+          // check if the session has expired
+          if (User.hasRefreshTokenExpired(session.expiresAt) === false) {
+            // refresh token has not expired
+            isSessionValid = true;
+          }
+        }
+      });
+      if (isSessionValid) {
+        // the session is VALID - call next() to continue with processing this web request
+        next();
+      } else {
+        // the session is not valid
+        return Promise.reject({
+          error: "Refresh token has expired or the session is invalid",
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(401).send(e);
+    });
+};
+
+//AUTH ROUTES 
+
+app.post('/signup', signup);
+app.post('/login', login);
+
+// USER ROUTES
+app.get("/user/email", authenticate, getUserEmail);
+app.get("/emails", getAllEmails);
+app.patch("/user/:id/credentials", authenticate, updateCredentials);
+app.delete('/user/:id', authenticate, deleteAccount)
+
+// Get username of a single user
+app.get("/user/username", authenticate, getUsername);
+// Get  all usernames in db
+app.get("/users", authenticate, getAllUsernames);
+
+// ABOUT ROUTES
+app.get('/user/about', authenticate, getAboutInfo);
+app.post('/user/about', authenticate, saveAboutInfo);
+app.patch('/user/about/:id', authenticate, updateAboutInfo);
 
 // PROJECT ROUTES
-
-app.get('/projects', (req, res) => {
-    Project.find()
-    .then((projectItems) => {
-        res.send(projectItems);
-    });
-})
-
-app.post('/projects', (req, res) => {
-    let projectName = req.body.projectInfo.projectName;
-    let url = req.body.projectInfo.url;
-    let description = req.body.projectInfo.description;
-    let projectTags = req.body.projectInfo.projectTags;
-
-    let newProjectInfo = new Project({
-        projectName,
-        url,
-        description,
-        projectTags
-    });
-
-    newProjectInfo.save()
-    .then((newProjectItem) => {
-        res.send(newProjectItem);
-    })
-})
-
-app.patch('/projects/:id', (req, res) => {
-    Project.findOneAndUpdate({ _id: req.params.id }, { $set: req.body })
-    .then(()=> {
-        res.sendStatus(200);
-    })
-})
-
-app.delete('/projects/:id', (req, res) => {
-    Project.findOneAndRemove({ _id: req.params.id })
-    .then((removedProjectItem)=> {
-        res.send(removedProjectItem);
-    })
-})
-
+app.get('/user/projects', authenticate, getProjectInfo);
+app.post('/user/projects', authenticate, saveProjectInfo);
+app.patch('/user/projects/:id', authenticate, updateProjectInfo);
+app.delete('/user/projects/:id', authenticate, deleteProjectInfo);
 
 // WORK EXPERIENCE ROUTES
+app.get('/user/experience', authenticate, getExperienceInfo);
+app.post('/user/experience', authenticate, saveExperienceInfo);
+app.patch('/user/experience/:id', authenticate, updateExperienceInfo);
+app.delete('/user/experience/:id', authenticate, deleteExperienceInfo);
 
-app.get('/experience', (req, res) => {
-    Experience.find()
-    .then((experienceItems) => {
-        res.send(experienceItems);
-    });
-})
-
-app.post('/experience', (req, res) => {
-    let title = req.body.experienceInfo.title;
-    let type = req.body.experienceInfo.type;
-    let companyName = req.body.experienceInfo.companyName;
-    let location = req.body.experienceInfo.location;
-    let startDate = req.body.experienceInfo.startDate;
-    let endDate = req.body.experienceInfo.endDate;
-    let description = req.body.experienceInfo.description;
-
-    let newExperienceInfo = new Experience({
-        title,
-        type,
-        companyName,
-        location,
-        startDate,
-        endDate,
-        description
-    });
-
-    newExperienceInfo.save()
-    .then((newExperienceItem) => {
-        res.send(newExperienceItem);
-    })
-})
-
-app.patch('/experience/:id', (req, res) => {
-    Experience.findOneAndUpdate({ _id: req.params.id }, { $set: req.body })
-    .then(()=> {
-        res.sendStatus(200);
-    })
-})
-
-app.delete('/experience/:id', (req, res) => {
-    Experience.findOneAndRemove({ _id: req.params.id })
-    .then((removedExperienceItem)=> {
-        res.send(removedExperienceItem);
-    })
-})
 
 // EDUCATION ROUTES
+app.get('/user/education', authenticate, getEducationInfo);
+app.post('/user/education', authenticate, saveEducationInfo);
+app.patch('/user/education/:id', authenticate, updateEducationInfo);
+app.delete('/user/education/:id', authenticate, deleteEducationInfo);
 
-app.get('/education', (req, res) => {
-    Education.find()
-    .then((educationItems) => {
-        res.send(educationItems);
+
+// CONTACTS ROUTES
+app.get('/user/contact', authenticate, getContactInfo);
+app.post('/user/contact', authenticate, saveContactInfo);
+app.patch('/user/contact/:id', authenticate, updateContactInfo);
+app.delete('/user/contact/:id', authenticate, deleteContactInfo);
+
+
+/**
+ * GET /users/me/access-token
+ * Purpose: generates and returns an access token
+ */
+app.get("/user/access-token", verifySession, (req, res) => {
+  // we know that the user/caller is authenticated and we have the user_id and user object available to us
+  req.userObject
+    .generateAccessAuthToken()
+    .then((accessToken) => {
+      res.header("x-access-token", accessToken).send({ accessToken });
+    })
+    .catch((e) => {
+      res.status(400).send(e);
     });
-})
+});
 
-app.post('/education', (req, res) => {
-    let school = req.body.educationInfo.school;
-    let degree = req.body.educationInfo.degree;
-    let fieldOfStudy = req.body.educationInfo.fieldOfStudy;
-    let startDate = req.body.educationInfo.startDate;
-    let endDate = req.body.educationInfo.endDate;
-    let grade = req.body.educationInfo.grade;
+// PREVIEW PROFILE ROUTES
+app.get('/user/:username/about', getAboutData);
+app.get('/user/:userId/projects', getProjectData);
+app.get('/user/:userId/experience', getExperienceData);
+app.get('/user/:userId/education', getEducationData);
+app.get('/user/:userId/contacts', getContactData);
 
-    let newEducationInfo = new Education({
-        school,
-        degree,
-        fieldOfStudy,
-        startDate,
-        endDate,
-        grade
-    });
 
-    newEducationInfo.save()
-    .then((newEducationItem) => {
-        res.send(newEducationItem);
-    })
-})
-
-app.patch('/education/:id', (req, res) => {
-    Education.findOneAndUpdate({ _id: req.params.id }, { $set: req.body })
-    .then(()=> {
-        res.sendStatus(200);
-    })
-})
-
-app.delete('/education/:id', (req, res) => {
-    Education.findOneAndRemove({ _id: req.params.id })
-    .then((removedEducationItem)=> {
-        res.send(removedEducationItem);
-    })
-})
-
-app.listen(3000, ()=> {
-    console.log("Server is running at port 3000");
-})
+const port = process.env.PORT;
+app.listen(port, () => {
+  console.log('Server is running at: %d', port);
+});

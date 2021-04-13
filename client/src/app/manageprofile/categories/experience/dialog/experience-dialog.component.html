@@ -1,0 +1,96 @@
+<h1 mat-dialog-title>{{action}} Experience</h1>
+
+<form [formGroup]="experienceForm">
+
+  <mat-dialog-content>
+    <div *ngIf="action != 'Delete'; else elseTemplate">
+      <mat-form-field class="example-full-width">
+        <mat-label>Title</mat-label>
+        <input matInput placeholder="Title" [(ngModel)]="local_data.title" formControlName="title">
+        <mat-error
+          *ngIf="(experienceFormControl.title.touched || submitted) && experienceFormControl.title.errors?.required">
+          Job title is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Employment type</mat-label>
+        <mat-select [(ngModel)]="local_data.type" formControlName="type">
+          <mat-option value="Full-time">Full-time</mat-option>
+          <mat-option value="Part-time">Part-time</mat-option>
+          <mat-option value="Self-employed">Self-employed</mat-option>
+          <mat-option value="Freelance">Freelance</mat-option>
+          <mat-option value="Intership">Intership</mat-option>
+          <mat-option value="Trainee">Trainee</mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="(experienceFormControl.type.touched || submitted) && experienceFormControl.type.errors?.required">
+          Job type is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Company name</mat-label>
+        <input matInput placeholder="Company name" [(ngModel)]="local_data.companyName" formControlName="companyName">
+        <mat-error
+          *ngIf="(experienceFormControl.companyName.touched || submitted) && experienceFormControl.companyName.errors?.required">
+          Company Name is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Location</mat-label>
+        <input matInput placeholder="Location" [(ngModel)]="local_data.location" formControlName="location">
+        <mat-error
+          *ngIf="(experienceFormControl.location.touched || submitted) && experienceFormControl.location.errors?.required">
+          Location is required
+        </mat-error>
+      </mat-form-field>
+
+      <div fxLayout="row" fxLayoutAlign="space-between none">
+        <div fxFlex="50">
+          <mat-form-field class="example-full-width">
+            <mat-label>Start date</mat-label>
+            <input matInput placeholder="Ex. August 2020" [(ngModel)]="local_data.startDate"
+              formControlName="startDate">
+            <mat-error
+              *ngIf="(experienceFormControl.startDate.touched || submitted) && experienceFormControl.startDate.errors?.required">
+              Start date is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="50">
+          <mat-form-field class="example-full-width">
+            <mat-label>End date</mat-label>
+            <input matInput placeholder="Ex. Present" [(ngModel)]="local_data.endDate" formControlName="endDate">
+            <mat-error
+              *ngIf="(experienceFormControl.endDate.touched || submitted) && experienceFormControl.endDate.errors?.required">
+              End date is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea #description matInput rows="10" placeholder="Brief about your roles and responsibilities..."
+          [(ngModel)]="local_data.description" formControlName="description"></textarea>
+        <mat-hint align="end">{{description.value.length}} / 500</mat-hint>
+        <mat-error
+          *ngIf="experienceFormControl.description.touched && experienceFormControl.description.errors?.maxlength">
+          Role description should be in max 500 characters...
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <ng-template #elseTemplate>
+        <p style="padding: 6px 0px;text-align: left;">Are you sure to delete this item?</p>
+      </ng-template>
+
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="closeDialog()">Cancel</button>
+    <button type="submit" mat-flat-button color="primary" (click)="doAction()">{{action}} Experience</button>
+  </mat-dialog-actions>

@@ -1,17 +1,21 @@
-import { Component, OnInit, Inject, Optional, ViewChild } from '@angular/core';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ProjectService } from '../../../services/project.service';
+import { ProjectDialogComponent } from './dialog/project-dialog.component';
 
-export interface Tags {
-  name: string;
+export interface ProjectInfo {
+  _id: string;
+  projectCover: string;
+  imageType: string;
+  projectDate: string;
+  projectName: string;
+  url: string;
+  description: string;
 }
+
+const projectData: ProjectInfo[] = [];
 
 @Component({
   selector: 'app-project',
@@ -19,121 +23,97 @@ export interface Tags {
   styleUrls: ['./project.component.css'],
 })
 export class ProjectComponent implements OnInit {
-  tags: Tags[] = [];
+  projectDataSource = projectData;
 
-  projectInfo = [
-    {
-      projectName: '',
-      url: '',
-      description: '',
-      projectTags: this.tags,
-    },
-  ];
   constructor(
     public dialog: MatDialog,
+    private _snackBar: MatSnackBar,
     private projectService: ProjectService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.projectService.getProjectList().subscribe((data) => {
-      this.projectInfo = JSON.parse(JSON.stringify(data));
+    this.projectService.getInfo().subscribe((data) => {
+      this.projectDataSource = JSON.parse(JSON.stringify(data));
     });
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(AddProjectComponent, {
-      width: '400px',
+  openDialog(action: any, objData: any) {
+    objData.action = action;
+    console.log(objData);
+    const dialogRef = this.dialog.open(ProjectDialogComponent, {
+      width: '300px',
+      data: objData,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result.project);
-      this.projectInfo = JSON.parse(JSON.stringify(result.project));
-      this.projectService.createProject(this.projectInfo);
+      if (result.event == 'Add') {
+        this.saveData(result.data);
+      } else if (result.event == 'Update') {
+        this.updateData(result.data, result.data._id);
+      } else if (result.event == 'Delete') {
+        this.deleteData(result.data._id);
+      }
+    });
+  }
+
+  saveData(payload: any) {
+    const newData = payload;
+    delete newData['action'];
+    // save data to db
+    this.projectDataSource = JSON.parse(JSON.stringify(newData));
+    this.projectService.saveInfo(this.projectDataSource);
+    // reloads component
+    setTimeout(() => {
+      this._snackBar.open('Project Added Successfully!', '', {
+        duration: 3500,
+        panelClass: ['custom-snackbar'],
+      });
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
       this.router.onSameUrlNavigation = 'reload';
       this.router.navigate(['./myprofile']);
+    }, 1500);
+  }
+
+  updateData(payload: any, id: string) {
+    const newData = payload;
+    delete newData['action'];
+    this.projectDataSource = this.projectDataSource.filter((value, key) => {
+      if (value._id == id) {
+        // send updated data to db
+        this.projectService.updateInfo(id, newData);
+      }
+      return true;
     });
-  }
-}
-
-@Component({
-  selector: 'app-add-project',
-  templateUrl: './add-project.html',
-  styleUrls: ['./project.component.css'],
-})
-export class AddProjectComponent {
-
-  @ViewChild('myPond') myPond: any;
-
-  pondOptions = {
-    class: 'my-filepond',
-    multiple: true,
-    labelIdle: 'Drop files here',
-    acceptedFileTypes: 'image/jpeg, image/png'
+    // reloads component
+    setTimeout(() => {
+      this._snackBar.open('Project Updated Successfully!', '', {
+        duration: 3500,
+        panelClass: ['custom-snackbar'],
+      });
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      this.router.onSameUrlNavigation = 'reload';
+      this.router.navigate(['./myprofile']);
+    }, 1500);
   }
 
-  pondFiles = [
-    'index.html'
-  ]
-
-  pondHandleInit() {
-    console.log('FilePond has initialised', this.myPond);
-  }
-
-  pondHandleAddFile(event: any) {
-    console.log('A file was added', event);
-  }
-  
-  visible = true;
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-
-  projectName: string = '';
-  url: string = '';
-  description: string = '';
-  tags: Tags[] = [];
-
-  constructor(
-    public dialogRef: MatDialogRef<AddProjectComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public project: any
-  ) {}
-
-  add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    if ((value || '').trim()) {
-      this.tags.push({ name: value.trim() });
-    }
-
-    if (input) {
-      input.value = '';
-    }
-  }
-
-  remove(tag: Tags): void {
-    const index = this.tags.indexOf(tag);
-
-    if (index >= 0) {
-      this.tags.splice(index, 1);
-    }
-  }
-
-  closeDialog() {
-    this.dialogRef.close({
-      project: {
-        projectName: this.projectName,
-        url: this.url,
-        description: this.description,
-        projectTags: this.tags,
-      },
+  deleteData(id: string) {
+    this.projectDataSource = this.projectDataSource.filter((value, key) => {
+      if (value._id == id) {
+        // delete data from db
+        this.projectService.deleteInfo(id);
+      }
+      return true;
     });
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
+    // reloads component
+    setTimeout(() => {
+      this._snackBar.open('Project Deleted Successfully!', '', {
+        duration: 3500,
+        panelClass: ['custom-snackbar'],
+      });
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      this.router.onSameUrlNavigation = 'reload';
+      this.router.navigate(['./myprofile']);
+    }, 1500);
   }
 }

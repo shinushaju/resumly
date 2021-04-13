@@ -1,31 +1,56 @@
 <div class="section">
-    <div fxLayout="row" fxLayoutAlign="space-between stretch">
+    <div fxLayout="row" fxLayoutAlign="space-between stretch" *ngIf="experienceDataSource.length != 0"
+        style="padding-bottom: 18px">
         <div class="child-1">
-            <strong class="mat-subheading-2 section-title">Work Experience</strong>
+            <strong class="mat-subheading-2 section-title">Experience</strong>
         </div>
         <div class="child-2">
-            <div class="edit-button"><button mat-flat-button color="primary" (click)="openDialog()">Add an
+            <div class="edit-button"><button mat-flat-button color="primary" (click)="openDialog('Add',{})">Add an
                     Experience</button></div>
         </div>
     </div>
 
-    <div class="section-content">
-        <div fxLayout="column" fxLayout.md="row" fxLayoutGap="20px" class="section-content-item">
-            <div *ngFor="let info of experienceInfo" fxLayout.lt-md="column" fxLayout.md="column" fxLayout="row"
-                fxFlex.md="50" fxLayoutAligmnet="space-between none" fxLayoutGap="20px">
-                <div fxFlex.lt-md="100" fxFlex="50">
-                    <div class="duration">
-                        {{info.startDate}} - {{info.endDate}}
+    <div *ngIf="experienceDataSource.length === 0">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly stretch" class="empty-state"
+            style="background-color: #ffc400">
+            <div fxFlex="70" fxFlexOrder="1">
+                <h1 class="mat-display-1"
+                    style="padding:0 0 8px 0;margin: 0 0 8px 0;font-weight: bold;letter-spacing: -2px;">Add Your
+                    Experience</h1>
+                <h4>This category typically reflects your contact with specific employers. Include co-ops, internships,
+                    part-time, jobs, volunteer work, summer jobs, special projects or other professional experiences
+                    under this
+                    category.</h4>
+                <br>
+                <button mat-flat-button class="custom-lg-btn" (click)="openDialog('Add', {})">Add an Experience</button>
+            </div>
+            <div fxFlex fxFlexOrder="2" style="display: flex;justify-content: center;">
+                <img src="../../../../assets/images/professional.png"
+                    style="display: inline-block;height: 175px; width: auto;padding: 24px;">
+            </div>
+        </div>
+    </div>
+
+    <div class="section-content" *ngFor="let item of experienceDataSource">
+        <div fxLayout="column" fxLayout.md="row">
+            <div fxLayout.lt-md="column" fxLayout.md="column" fxLayout="row" fxFlex.md="50"
+                fxLayoutAligmnet="space-between none" class="data-container" [ngClass.lt-md]="'data-container-sm'">
+                <div fxFlex.lt-md="100" fxFlex="40">
+                    <div class="duration mat-subheading-2">
+                        {{item.startDate}} - {{item.endDate}}
                     </div>
                 </div>
-                <div fxFlex.lt-md="100" fxFlex="50">
-                    <div class="experience-info">
-                        <h3 class="role">{{info.title}} at {{info.companyName}}</h3>
-                        <h4 class="location">{{info.location}} - {{info.type}}</h4>
-                        <p class="description">{{info.description}}</p>
+                <div fxFlex.lt-md="100" fxFlex="60">
+                    <div class="experience-item">
+                        <div class="role mat-subheading-2">{{item.title}} at {{item.companyName}}</div>
+                        <h4 class="location">{{item.location}} - {{item.type}}</h4>
+                        <p class="description">{{item.description}}</p>
+                        <br>
                         <div class="action-buttons">
-                            <button mat-stroked-button color="primary" style="margin-right: 16px;">Edit</button>
-                            <button mat-button color="warn">Delete</button>
+                            <span class="action-button-item" style="color: black"
+                                (click)="openDialog('Update',item)">Edit</span>
+                            <span class="action-button-item" style="color: red"
+                                (click)="openDialog('Delete',item)">Delete</span>
                         </div>
                     </div>
                 </div>

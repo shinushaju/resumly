@@ -16,19 +16,19 @@ export class EducationService {
 
   constructor(private webApiService: WebapiRequestService) {}
 
-  getEducationList() {
-    return this.webApiService.get('education');
+  getInfo() {
+    return this.webApiService.get('user/education');
   }
 
-  createEducation(educationInfo: any) {
-    return this.webApiService.post('education', { educationInfo });
+  saveInfo(educationInfo: any) {
+    return this.webApiService.post('user/education', { educationInfo });
   }
 
-  updateEducation(id: string, educationInfo: any) {
-    return this.webApiService.patch(`education/${id}`, { educationInfo });
+  updateInfo(id: string, payload: any) {
+    return this.webApiService.patch(`user/education/${id}`, { payload });
   }
 
-  deleteEducation(id: string) {
-    return this.webApiService.delete(`./education/${id}`);
+  deleteInfo(id: string) {
+    return this.webApiService.delete(`user/education/${id}`);
   }
 }

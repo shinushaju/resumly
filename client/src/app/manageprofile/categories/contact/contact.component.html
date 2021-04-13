@@ -1,30 +1,51 @@
 <div class="section">
-    <div fxLayout="row" fxLayoutAlign="space-between stretch">
+    <div fxLayout="row" fxLayoutAlign="space-between stretch" *ngIf="contactDataSource.length != 0">
         <div class="child-1">
             <strong class="mat-subheading-2 section-title">Contacts</strong>
         </div>
         <div class="child-2">
-            <div class="edit-button"><button mat-flat-button color="primary">Manage Links</button></div>
+            <div class="edit-button"><button mat-flat-button color="primary" (click)="openDialog('Add',{})">Add
+                    Contact</button></div>
         </div>
     </div>
 
-    <div class="section-content">
-        <h1>Let's Connect<span><img src="../../../../assets/images/hand-icon.svg" class="hand-icon"></span></h1>
-        <div class="links">
-            Github
-            <a mat-icon-button href="" target="_blank"><mat-icon>open_in_new</mat-icon></a>
+    <div *ngIf="contactDataSource.length === 0">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly stretch" class="empty-state"
+            style="background-color: #00c853">
+            <div fxFlex="70" fxFlexOrder="1">
+                <h1 class="mat-display-1"
+                    style="padding:0 0 8px 0;margin: 0 0 8px 0;font-weight: bold;letter-spacing: -2px;">Add Contacts
+                </h1>
+                <h4> Many hiring managers will search for you online anyway, so you may as well be proactive by listing
+                    the links. Social profiles can showcase you as an individual, rather than just a list of past jobs,
+                    skills,
+                    and achievements.
+                </h4>
+                <br>
+                <button mat-flat-button class="custom-lg-btn" (click)="openDialog('Add', {})">Add Contacts</button>
+            </div>
+            <div fxFlex fxFlexOrder="2" style="display: flex;justify-content: center;">
+                <img src="../../../../assets/images/connect.svg"
+                    style="display: inline-block;height: 200px; width: auto;">
+            </div>
         </div>
-        <div class="links">
-            Linkedin
-            <a mat-icon-button href="" target="_blank"><mat-icon>open_in_new</mat-icon></a>
-        </div>
-        <div class="links">
-            Instagram
-            <a mat-icon-button href="" target="_blank"><mat-icon>open_in_new</mat-icon></a>
-        </div>
-        <div class="links">
-            Twitter
-            <a mat-icon-button href="" target="_blank"><mat-icon>open_in_new</mat-icon></a>
+    </div>
+
+    <div class="section-content" *ngIf="contactDataSource.length !== 0">
+        <h2>Let's Connect<span><img src="../../../../assets/images/hand-icon.svg" class="hand-icon"></span></h2>
+        <div fxLayout.xs="column" fxLayout.sm="column" fxLayout="row" fxLayoutAlign="start stretch">
+            <div *ngFor="let item of contactDataSource" style="padding-right: 24px;">
+                <a class="links" href="{{ item.link }}" target="_blank">
+                    <h1>{{ item.type }}</h1>
+                </a>
+
+                <div class="action-buttons">
+                    <span class="action-button-item" style="color: black"
+                        (click)="openDialog('Update',item)">Edit</span>
+                    <span class="action-button-item" style="color: red"
+                        (click)="openDialog('Delete',item)">Delete</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>

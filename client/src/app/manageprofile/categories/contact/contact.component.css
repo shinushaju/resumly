@@ -1,7 +1,8 @@
 .links {
-    font-size: medium;
+  margin: 8px 0px;
+  font-size: larger;
 }
 
 a {
-    color: #999999;
+  color: #999999;
 }

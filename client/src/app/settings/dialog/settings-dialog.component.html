@@ -1,0 +1,72 @@
+<h1 mat-dialog-title>{{action}}</h1>
+<div *ngIf="action != 'Delete Account'; else elseTemplate">
+
+  <div *ngIf="action === 'Change Email'">
+    <form [formGroup]="emailForm">
+
+      <mat-dialog-content>
+        <mat-form-field class="example-full-width">
+          <mat-label>{{action}}</mat-label>
+          <input type="email" matInput placeholder="Change Email" [(ngModel)]="local_data.email"
+            formControlName="email">
+          <mat-error *ngIf="(emailFormControl.email.touched || submitted) && emailFormControl.email.errors?.required">
+            Email is required</mat-error>
+          <mat-error *ngIf="emailFormControl.email.touched && emailFormControl.email.errors?.email">
+            Enter a valid email address</mat-error>
+        </mat-form-field>
+      </mat-dialog-content>
+
+      <mat-dialog-actions align="end">
+        <button mat-button (click)="closeDialog()">Cancel</button>
+        <button type="submit" mat-flat-button color="primary" (click)="doAction()"
+          [disabled]="!emailForm.valid">{{action}}</button>
+      </mat-dialog-actions>
+    </form>
+  </div>
+
+  <div *ngIf="action === 'Change Username'">
+    <form [formGroup]="usernameForm">
+      <mat-dialog-content>
+        <mat-form-field class="example-full-width">
+          <mat-label>{{action}}</mat-label>
+          <input #username type="text" matInput placeholder="Change Username" [(ngModel)]="local_data.username"
+            formControlName="username">
+          <mat-hint align="end">{{username.value.length}} / 15</mat-hint>
+          <mat-error
+            *ngIf="(usernameFormControl.username.touched || submitted) && usernameFormControl.username.errors?.required">
+            Username is required
+          </mat-error>
+          <mat-error
+            *ngIf="usernameFormControl.username.touched && usernameFormControl.username.errors?.userNameNotAvailable">
+            Username taken!
+          </mat-error>
+          <mat-error *ngIf="usernameFormControl.username.touched && usernameFormControl.username.errors?.minlength">
+            Username must be at least 3 characters
+          </mat-error>
+          <mat-error *ngIf="usernameFormControl.username.touched && usernameFormControl.username.errors?.maxlength">
+            Username must be less than 16 characters
+          </mat-error>
+          <mat-error *ngIf="usernameFormControl.username.touched && usernameFormControl.username.errors?.pattern">
+            Use only lower-case letters.
+          </mat-error>
+        </mat-form-field>
+      </mat-dialog-content>
+
+      <mat-dialog-actions align="end">
+        <button mat-button (click)="closeDialog()">Cancel</button>
+        <button type="submit" mat-flat-button color="primary" (click)="doAction()"
+          [disabled]="!usernameForm.valid">{{action}}</button>
+      </mat-dialog-actions>
+    </form>
+  </div>
+
+</div>
+<ng-template #elseTemplate>
+  <h4 style="padding: 6px 0px;text-align: left;"><b>Are you sure to delete your resumly account? This action is
+      irreverseible. You will lose all your data!</b></h4>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="closeDialog()">Cancel</button>
+    <button type="submit" mat-flat-button color="primary" (click)="doAction()">{{action}}</button>
+  </mat-dialog-actions>
+</ng-template>
